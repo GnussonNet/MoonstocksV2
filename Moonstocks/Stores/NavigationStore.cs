@@ -1,16 +1,11 @@
 ﻿using Moonstocks.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Moonstocks.Stores
 {
     public class NavigationStore
     {
         public event Action CurrentViewModelChanged;
-
 
         private ViewModelBase _currentViewModel;
         public ViewModelBase CurrentViewModel

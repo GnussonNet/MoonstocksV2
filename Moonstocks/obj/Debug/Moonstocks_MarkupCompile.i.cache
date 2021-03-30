@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\Gnusse\source\repos\Moonstocks\Moonstocks\obj\Debug\
+C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\
 Moonstocks
 none
 false
 DEBUG;TRACE
-C:\Users\Gnusse\source\repos\Moonstocks\Moonstocks\App.xaml
-5-752341013
+C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\App.xaml
+61164355030
 
-151022476222
-13-1505183044
-Dictionaries\ColorSchemeDictionary.xaml;Dictionaries\DefaultDictionary.xaml;MainWindow.xaml;Views\HomeView.xaml;Views\SignInView.xaml;
+23895827049
+131-1908947125
+Dictionaries\ColorSchemeDictionary.xaml;Dictionaries\DefaultDictionary.xaml;MainWindow.xaml;Views\CreateAccountView.xaml;Views\HomeView.xaml;Views\SignInView.xaml;
 
-False
+True
 

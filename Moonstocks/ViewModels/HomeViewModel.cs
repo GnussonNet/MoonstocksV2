@@ -1,21 +1,21 @@
 ﻿using Moonstocks.Commands;
+using Moonstocks.Models;
 using Moonstocks.Stores;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Moonstocks.ViewModels
 {
     public class HomeViewModel : ViewModelBase
     {
+        private readonly AuthModel _authUser;
+        public string DisplayName { get; }
         public ICommand NavigateSignInCommand { get; }
 
-        public HomeViewModel(NavigationStore navigationStore)
+        public HomeViewModel(NavigationStore navigationStore, AuthModel authUser)
         {
-            NavigateSignInCommand = new NavigateCommand<SignInViewModel>(navigationStore, () => new SignInViewModel(navigationStore));
+            DisplayName = authUser.User.displayName;
+            _authUser = authUser;
+            NavigateSignInCommand = new NavigateCommand<SignInViewModel>(navigationStore, () => new SignInViewModel(navigationStore, _authUser));
         }
     }
 }

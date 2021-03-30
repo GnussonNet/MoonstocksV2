@@ -3,10 +3,10 @@
 
     <SolidColorBrush x:Key="Background" Color="#fcfcfc" />
     <SolidColorBrush x:Key="Header" Color="#005DA7" />
-    <SolidColorBrush x:Key="TextHigh" Color="#DDFFFFFF" />
-    <SolidColorBrush x:Key="TextLow" Color="#99FFFFFF" />
-    <SolidColorBrush x:Key="TextDisable" Color="#60FFFFFF" />
-    <SolidColorBrush x:Key="ButtonBorder" Color="#FF373737" />
-    <SolidColorBrush x:Key="ButtonHover" Color="#0AFFFFFF" />
+    <SolidColorBrush x:Key="TextHigh" Color="#1c1c1c" />
+    <SolidColorBrush x:Key="TextHighAlt" Color="#fcfcfc" />
+    <SolidColorBrush x:Key="ButtonHover" Color="#0A63AA" />
+    <SolidColorBrush x:Key="ButtonHoverAlt" Color="#E81123" />
+    <SolidColorBrush x:Key="ButtonDisable" Color="#42617a" />
 
 </ResourceDictionary>

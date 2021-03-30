@@ -6,7 +6,16 @@
              xmlns:local="clr-namespace:Moonstocks.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Dictionaries/DefaultDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
-        <Button Width="100" Height="25" Content="Go Sign in" Command="{Binding NavigateSignInCommand}"></Button>
+        <Button Width="100" Height="25" Content="{Binding DisplayName}" Command="{Binding NavigateSignInCommand}"></Button>
     </Grid>
 </UserControl>
