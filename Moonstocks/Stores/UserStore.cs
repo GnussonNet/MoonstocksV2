@@ -19,6 +19,12 @@ namespace Moonstocks.Stores
             }
         }
 
+        public UserStore()
+        {
+            _currentUser = new AuthModel();
+            _currentUser.User = new AuthUserModel();
+        }
+
         private void OnCurrentUserChanged()
         {
             CurrentUserChanged?.Invoke();

@@ -37,12 +37,8 @@ namespace Moonstocks.Models
         #endregion
 
         #region -- Constructor --
-        public AuthUserModel(string localId, string displayName, string email, bool emailVerified)
+        public AuthUserModel()
         {
-            this.localId = localId;
-            this.displayName = displayName;
-            this.email = email;
-            this.emailVerified = emailVerified;
         }
         #endregion
 

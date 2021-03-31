@@ -30,11 +30,11 @@ namespace Moonstocks.Models
         #endregion
 
         #region -- Constructor --
-        public AuthModel(string idToken, string refreshToken, AuthUserModel user)
+        public AuthModel(/*string idToken, string refreshToken, AuthUserModel user*/)
         {
-            this.idToken = idToken;
-            this.refreshToken = refreshToken;
-            this.User = user;
+            //this.idToken = idToken;
+            //this.refreshToken = refreshToken;
+            //this.User = user;
         }
         #endregion
 

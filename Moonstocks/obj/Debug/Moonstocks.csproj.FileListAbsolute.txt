@@ -41,7 +41,6 @@ C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.cs
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.csproj.CoreCompileInputs.cache
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.exe
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.pdb
-C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.csprojAssemblyReference.cache
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Views\CreateAccountView.g.cs
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Views\CreateAccountView.baml
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\bin\Debug\Firebase.Auth.dll
@@ -56,3 +55,5 @@ C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\bin\Debug\Newtonsoft.Js
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\bin\Debug\System.Diagnostics.DiagnosticSource.xml
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\bin\Debug\System.Reactive.xml
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.csproj.CopyComplete
+C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\bin\Debug\LoadingIndicators.WPF.dll
+C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\bin\Debug\LoadingIndicators.WPF.pdb

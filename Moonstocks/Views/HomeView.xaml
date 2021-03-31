@@ -16,6 +16,6 @@
     </UserControl.Resources>
 
     <Grid>
-        <Button Width="100" Height="25" Content="{Binding DisplayName}" Command="{Binding NavigateSignInCommand}"></Button>
+        <Button Width="100" Height="25" Content="{Binding DisplayName}" Command="{Binding SignOutCommand}"></Button>
     </Grid>
 </UserControl>

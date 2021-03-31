@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Moonstocks.Views"
+             xmlns:converters="clr-namespace:Moonstocks.Converters"
+             xmlns:loading="clr-namespace:LoadingIndicators.WPF;assembly=LoadingIndicators.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -11,49 +13,57 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Dictionaries/DefaultDictionary.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <!--Content-->
-    <Grid Grid.Row="1" Margin="10 0 10 0" Grid.ColumnSpan="2">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="1.5*" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=true, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
+            <loading:LoadingIndicator Name="DoubleBounce" Width="200" Height="200" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorThreeDotsStyle}"></loading:LoadingIndicator>
+        </Grid>
+        <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=false, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="5" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="32" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <Label Grid.Column="1" Grid.Row="1" Content="Email" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
-        <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource PrimaryTextbox}" TabIndex="0" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="32" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
 
-        <Label Grid.Column="1" Grid.Row="4" Content="Password" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
-        <TextBox Grid.Column="1" Grid.Row="5" Style="{StaticResource PrimaryTextbox}" TabIndex="1" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-        <!--<PasswordBox Grid.Column="1" Grid.Row="5" Style="{StaticResource PrimaryPasswordbox}" TabIndex="1" PasswordChanged="PasswordBox_PasswordChanged" ></PasswordBox>-->
+            <Label Grid.Column="1" Grid.Row="1" Content="Email" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
+            <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource PrimaryTextbox}" TabIndex="0" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
-        <CheckBox Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Content="Remember me" VerticalAlignment="Center" Margin="0 10" BorderThickness="2" Foreground="{DynamicResource TextHigh}" Background="Transparent" BorderBrush="{DynamicResource Header}" TabIndex="2"></CheckBox>
-        <Label Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="Forgot password?" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
+            <Label Grid.Column="1" Grid.Row="4" Content="Password" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
+            <TextBox Grid.Column="1" Grid.Row="5" Style="{StaticResource PrimaryTextbox}" TabIndex="1" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <!--<PasswordBox Grid.Column="1" Grid.Row="5" Style="{StaticResource PrimaryPasswordbox}" TabIndex="1" PasswordChanged="PasswordBox_PasswordChanged" ></PasswordBox>-->
 
-        <Button Grid.Column="1" Grid.Row="7" Content="Login" Style="{StaticResource PrimaryButton}" Command="{Binding SignInCommand}" TabIndex="3"></Button>
+            <CheckBox Grid.Column="1" Grid.Row="6" HorizontalAlignment="Left" Content="Remember me" VerticalAlignment="Center" Margin="0 10" BorderThickness="2" Foreground="{DynamicResource TextHigh}" Background="Transparent" BorderBrush="{DynamicResource Header}" IsChecked="{Binding RememberMe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2"></CheckBox>
+            <Label Grid.Column="1" Grid.Row="6" HorizontalAlignment="Right" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Content="Forgot password?" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
 
-        <Label Grid.Column="1" Grid.Row="9" Content="or" Padding="0,6,5,6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="{DynamicResource TextHigh}"></Label>
+            <Button Grid.Column="1" Grid.Row="7" Content="Login" Style="{StaticResource PrimaryButton}" Command="{Binding SignInCommand}" TabIndex="3"></Button>
 
-        <Button Grid.Column="1" Grid.Row="10" Content="Create account" Style="{StaticResource PrimaryButton}" Command="{Binding NavigateCreateAccountCommand}" TabIndex="4"></Button>
+            <Label Grid.Column="1" Grid.Row="9" Content="or" Padding="0,6,5,6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="{DynamicResource TextHigh}"></Label>
+
+            <Button Grid.Column="1" Grid.Row="10" Content="Create account" Style="{StaticResource PrimaryButton}" Command="{Binding NavigateCreateAccountCommand}" TabIndex="4"></Button>
 
 
+        </Grid>
     </Grid>
 </UserControl>

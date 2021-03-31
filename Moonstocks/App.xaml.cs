@@ -3,6 +3,7 @@ using Moonstocks.ViewModels;
 using Moonstocks.Views;
 using Moonstocks.Models;
 using System.Windows;
+using Moonstocks.Services;
 
 namespace Moonstocks
 {
@@ -14,12 +15,12 @@ namespace Moonstocks
         protected override void OnStartup(StartupEventArgs e)
         {
             NavigationStore navigationStore = new NavigationStore();
-            AuthModel authUser = new AuthModel("","", new AuthUserModel("","","",false));
-            navigationStore.CurrentViewModel = new SignInViewModel(navigationStore, authUser);
+            UserService userSerice = new UserService();
+            navigationStore.CurrentViewModel = new SignInViewModel(navigationStore, userSerice);
 
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel(navigationStore, authUser)
+                DataContext = new MainViewModel(navigationStore, userSerice)
             };
             MainWindow.Show();
             base.OnStartup(e);

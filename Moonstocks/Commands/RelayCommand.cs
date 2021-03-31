@@ -7,13 +7,7 @@ using System.Windows.Input;
 
 namespace Moonstocks.Commands
 {
-    public interface IAsyncCommand : ICommand
-    {
-        Task ExecuteAsync();
-        bool CanExecute();
-    }
-
-    public class SignInCommand : IAsyncCommand
+    public class RelayCommand : IAsyncCommand
     {
         public event EventHandler CanExecuteChanged;
 
@@ -21,7 +15,7 @@ namespace Moonstocks.Commands
         private readonly Func<Task> _execute;
         private readonly Func<bool> _canExecute;
 
-        public SignInCommand(
+        public RelayCommand(
             Func<Task> execute,
             Func<bool> canExecute = null
             )
@@ -59,14 +53,14 @@ namespace Moonstocks.Commands
         }
 
         #region Explicit implementations
-        bool ICommand.CanExecute(object parameter)
-        {
-            return CanExecute();
-        }
-
         async void ICommand.Execute(object parameter)
         {
             await ExecuteAsync();
+        }
+
+        bool ICommand.CanExecute(object parameter)
+        {
+            return CanExecute();
         }
         #endregion
     }
