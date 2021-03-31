@@ -5,7 +5,7 @@
     <SolidColorBrush x:Key="Header" Color="#005DA7" />
     <SolidColorBrush x:Key="TextHigh" Color="#1c1c1c" />
     <SolidColorBrush x:Key="TextHighAlt" Color="#fcfcfc" />
-    <SolidColorBrush x:Key="ButtonHover" Color="#0A63AA" />
+    <SolidColorBrush x:Key="ButtonHover" Color="#2173b5" />
     <SolidColorBrush x:Key="ButtonHoverAlt" Color="#E81123" />
     <SolidColorBrush x:Key="ButtonDisable" Color="#42617a" />
 

@@ -21,7 +21,8 @@
 
     <Grid>
         <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=true, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
-            <loading:LoadingIndicator Name="DoubleBounce" Width="200" Height="200" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorThreeDotsStyle}"></loading:LoadingIndicator>
+            <loading:LoadingIndicator Foreground="{DynamicResource Header}" Name="DoubleBounce" Margin="0 -30 0 0" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorDoubleBounceStyle}" />
+            <TextBlock Text="Creating new account" Foreground="{DynamicResource TextHigh}" Margin="0 45 0 0" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
         <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=false, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>

@@ -10,6 +10,7 @@ using System.IO;
 using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Moonstocks.ViewModels
@@ -79,10 +80,7 @@ namespace Moonstocks.ViewModels
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
             try
             {
-
                 _userService.SignInUser(await authProvider.SignInWithEmailAndPasswordAsync(Email, Password), RememberMe);
-
-
             }
             catch (Exception ex)
             {
