@@ -1,16 +1,13 @@
 ﻿using Firebase.Auth;
 using Moonstocks.Commands;
-using Moonstocks.Models;
 using Moonstocks.Secrets;
 using Moonstocks.Services;
 using Moonstocks.Stores;
 using Newtonsoft.Json;
 using System;
 using System.IO;
-using System.Security;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Moonstocks.ViewModels
@@ -51,6 +48,7 @@ namespace Moonstocks.ViewModels
         }
 
         public ICommand SignInCommand { get; private set; }
+        public ICommand ForgotPasswordCommand { get; private set; }
         public ICommand NavigateHomeCommand { get; }
         public ICommand NavigateCreateAccountCommand { get; }
 
@@ -59,7 +57,8 @@ namespace Moonstocks.ViewModels
             _userService = userService;
             _navigationStore = navigationStore;
             SignInCommand = new RelayCommand(SignInUser, CanSignIn);
-            NavigateHomeCommand = new NavigateSignInCommand<HomeViewModel>(navigationStore, () => new HomeViewModel(navigationStore, _userService));
+            ForgotPasswordCommand = new NavigateCommand<ForgotPasswordView>(_navigationStore, () => new ForgotPasswordView(_navigationStore, _userService));
+            NavigateHomeCommand = new NavigateCommand<HomeViewModel>(_navigationStore, () => new HomeViewModel(_navigationStore, _userService));
             NavigateCreateAccountCommand = new NavigateCommand<CreateAccountViewModel>(navigationStore, () => new CreateAccountViewModel(navigationStore, _userService));
 
             _userService.CurrentUserSignedIn += CurrentUserSignedIn;
@@ -86,7 +85,10 @@ namespace Moonstocks.ViewModels
             {
                 MessageBox.Show(ex.Message);
             }
-            IsBusy = false;
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async void SignInUser(string userData)
@@ -102,7 +104,10 @@ namespace Moonstocks.ViewModels
             {
                 MessageBox.Show(ex.Message);
             }
-            IsBusy = false;
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private bool CanSignIn()

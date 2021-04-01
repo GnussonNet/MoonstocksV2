@@ -56,7 +56,6 @@ namespace Moonstocks.ViewModels
             _userService = userService;
             _navigationStore = navigationStore;
             NavigateSignInCommand = new NavigateCommand<SignInViewModel>(navigationStore, () => new SignInViewModel(navigationStore, _userService));
-            NavigateHomeCommand = new NavigateSignInCommand<HomeViewModel>(navigationStore, () => new HomeViewModel(navigationStore, _userService));
             CreateAccountCommand = new RelayCommand(CreateAccount, CanCreateAccount);
 
             _userService.UserCreated += _userService_UserCreated;
@@ -79,7 +78,10 @@ namespace Moonstocks.ViewModels
             {
                 MessageBox.Show(ex.Message);
             }
-            IsBusy = false;
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private bool CanCreateAccount()

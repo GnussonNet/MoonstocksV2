@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\App.xaml
-61164355030
+7-1820542273
 
-261128878317
+271100830457
 132-1325029984
-Dictionaries\ColorSchemeDictionary.xaml;Dictionaries\DefaultDictionary.xaml;MainWindow.xaml;Views\CreateAccountView.xaml;Views\HomeView.xaml;Views\SignInView.xaml;
+Dictionaries\ColorSchemeDictionary.xaml;Dictionaries\DefaultDictionary.xaml;MainWindow.xaml;Views\CreateAccountView.xaml;Views\ForgotPasswordView.xaml;Views\HomeView.xaml;Views\SignInView.xaml;
 
 False
 

@@ -55,7 +55,7 @@ namespace Moonstocks.Services
             return _currentUser.User.displayName;
         }
 
-        public bool SignInUser(FirebaseAuthLink userData, bool saveData)
+        public void SignInUser(FirebaseAuthLink userData, bool saveData)
         {
             try
             {
@@ -69,26 +69,21 @@ namespace Moonstocks.Services
             {
                 IsSignedIn = false;
             }
-            return IsSignedIn;
         }
 
-        public bool CreateAccount(FirebaseAuthLink userData)
+        public void CreateAccount(FirebaseAuthLink userData)
         {
-            bool output = false;
             try
             {
                 userData.GetFreshAuthAsync();
                 UserCreated?.Invoke();
-                output = true;
             }
             catch (Exception)
             {
-                output = false;
             }
-            return output;
         }
 
-        public bool SignOutUser()
+        public void SignOutUser()
         {
             try
             {
@@ -98,14 +93,12 @@ namespace Moonstocks.Services
                 IsSignedIn = false;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                MessageBox.Show("Something went wrong when trying to create an account...");
+                MessageBox.Show("Something went wrong when trying to signout\n" +ex.Message);
                 if (_currentUser.idToken != null)
                     IsSignedIn = true;
             }
-            return IsSignedIn;
-
         }
 
         public override string ToString()

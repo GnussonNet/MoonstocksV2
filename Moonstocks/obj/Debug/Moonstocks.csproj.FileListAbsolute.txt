@@ -58,3 +58,5 @@ C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.cs
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\bin\Debug\LoadingIndicators.WPF.dll
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\bin\Debug\LoadingIndicators.WPF.pdb
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.csprojAssemblyReference.cache
+C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Views\ForgotPasswordView.g.cs
+C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Views\ForgotPasswordView.baml

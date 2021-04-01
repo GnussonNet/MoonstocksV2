@@ -79,6 +79,9 @@
                     <DataTemplate DataType="{x:Type viewmodels:HomeViewModel}">
                         <views:HomeView />
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewmodels:ForgotPasswordView}">
+                        <views:ForgotPasswordView />
+                    </DataTemplate>
                 </ContentControl.Resources>
             </ContentControl>
         </Grid>
