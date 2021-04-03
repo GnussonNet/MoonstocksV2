@@ -38,8 +38,8 @@ namespace Moonstocks.Services
 
         public UserService()
         {
-            _currentUser = new AuthModel();
-            _currentUser.User = new AuthUserModel();
+            CurrentUser = new AuthModel();
+            CurrentUser.User = new AuthUserModel();
         }
 
         private void OnCurrentUserSignedInChanged()
@@ -52,7 +52,17 @@ namespace Moonstocks.Services
 
         public string GetDisplayName()
         {
-            return _currentUser.User.displayName;
+            return CurrentUser.User.displayName;
+        }
+
+        public string GetToken()
+        {
+            return CurrentUser.idToken;
+        }
+
+        public string GetUid()
+        {
+            return CurrentUser.User.localId;
         }
 
         public void SignInUser(FirebaseAuthLink userData, bool saveData)
@@ -60,7 +70,7 @@ namespace Moonstocks.Services
             try
             {
                 userData.GetFreshAuthAsync();
-                _currentUser = JsonConvert.DeserializeObject<AuthModel>(JsonConvert.SerializeObject(userData));
+                CurrentUser = JsonConvert.DeserializeObject<AuthModel>(JsonConvert.SerializeObject(userData));
                 if (saveData)
                     File.WriteAllText(storedAuthFullPath, JsonConvert.SerializeObject(userData));
                 IsSignedIn = true;
@@ -89,14 +99,14 @@ namespace Moonstocks.Services
             {
                 if (File.Exists(storedAuthFullPath))
                     File.Delete(storedAuthFullPath);
-                _currentUser = null;
+                CurrentUser = null;
                 IsSignedIn = false;
 
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Something went wrong when trying to signout\n" +ex.Message);
-                if (_currentUser.idToken != null)
+                if (CurrentUser.idToken != null)
                     IsSignedIn = true;
             }
         }

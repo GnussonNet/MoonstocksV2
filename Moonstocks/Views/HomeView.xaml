@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Moonstocks.Views"
+             xmlns:converters="clr-namespace:Moonstocks.Converters"
+             xmlns:loading="clr-namespace:LoadingIndicators.WPF;assembly=LoadingIndicators.WPF"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -11,63 +13,102 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/Dictionaries/DefaultDictionary.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/LoadingIndicators.WPF;component/Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid Background="{DynamicResource Background}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="35" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="7" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="7" />
-        </Grid.ColumnDefinitions>
-        <Grid Grid.ColumnSpan="3" Background="{DynamicResource Header}">
+    <Grid Background="#F3F5F5">
+        <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=true, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
+            <loading:LoadingIndicator Foreground="{DynamicResource Header}" Name="DoubleBounce" Margin="0 -30 0 0" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorDoubleBounceStyle}" />
+            <TextBlock Text="Loading stocks and watchlists" Foreground="{DynamicResource TextHigh}" Margin="0 45 0 0" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+        <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=false, UpdateSourceTrigger=PropertyChanged}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35"/>
-                <ColumnDefinition Width="35"/>
-                <ColumnDefinition Width="35"/>
-                <ColumnDefinition Width="35"/>
-                <ColumnDefinition Width="35"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="105"/>
+                <ColumnDefinition Width="7" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="7" />
             </Grid.ColumnDefinitions>
+            <Grid Grid.ColumnSpan="3" Background="{DynamicResource Header}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="105"/>
+                </Grid.ColumnDefinitions>
 
 
-            <Button Grid.Column="7" Padding="0" FontSize="16" Foreground="{DynamicResource TextHighAlt}" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding SignOutCommand}">
-                <Grid Margin="0" Width="auto" Height="35">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="35" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock FontSize="14" Text="{Binding DisplayName}" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Right" ></TextBlock>
-                    <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Text="&#xE77B;"></TextBlock>
+                <Button Grid.Column="7" Padding="0" FontSize="16" Foreground="{DynamicResource TextHighAlt}" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding SignOutCommand}">
+                    <Grid Margin="0" Width="auto" Height="35">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="35" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock FontSize="14" Text="{Binding DisplayName}" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Right" ></TextBlock>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Text="&#xE77B;"></TextBlock>
+                    </Grid>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="{DynamicResource Header}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource ButtonHover}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="200" MaxWidth="400" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition Width="2.5*" MinWidth="400" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="2*" />
+                    </Grid.RowDefinitions>
+
+                    <ListView ItemsSource="{Binding Watchlists}" FontSize="12" Margin="7" Grid.Row="1" BorderThickness="0" ItemContainerStyle="{DynamicResource ListViewContainerStyle}">
+                        <ListView.Template>
+                            <ControlTemplate>
+                                <Border Background="#FFFFFF" CornerRadius="5" BorderThickness="0">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="5" Opacity="0.2" ShadowDepth="1" />
+                                    </Border.Effect>
+                                    <ItemsPresenter></ItemsPresenter>
+                                </Border>
+                            </ControlTemplate>
+                        </ListView.Template>
+                    </ListView>
+
                 </Grid>
-                <Button.Style>
-                    <Style TargetType="{x:Type Button}">
-                        <Setter Property="Background" Value="{DynamicResource Header}"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="{x:Type Button}">
-                                    <Border Background="{TemplateBinding Background}">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="{DynamicResource ButtonHover}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
+                <GridSplitter Background="Transparent" Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch"/>
+                <Grid Grid.Column="2"></Grid>
 
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

@@ -213,6 +213,8 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\AuthUserModel.cs" />
+    <Compile Include="Models\StocksModel.cs" />
+    <Compile Include="Models\WatchlistModel.cs" />
     <Compile Include="Secrets\Credentials.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Stores\NavigationStore.cs" />
@@ -304,6 +306,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\profile_blank.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

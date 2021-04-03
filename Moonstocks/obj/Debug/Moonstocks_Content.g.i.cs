@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/profile_blank.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/logo.ico")]
 
 
