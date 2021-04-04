@@ -24,27 +24,27 @@ namespace Moonstocks.ViewModels
         public bool IsBusy
         {
             get => _isBusy;
-            private set { _isBusy = value; OnPropertyChanged("IsBusy"); }
+            private set { _isBusy = value; OnPropertyChanged(); }
         }
 
         private bool _rememberMe;
         public bool RememberMe
         {
             get => _rememberMe;
-            set { _rememberMe = value; OnPropertyChanged("RememberMe"); }
+            set { _rememberMe = value; OnPropertyChanged(); }
         }
 
         private string _email;
         public string Email
         {
             get => _email;
-            set { _email = value; OnPropertyChanged("Email"); }
+            set { _email = value; OnPropertyChanged(); }
         }
         private string _password;
         public string Password
         {
             get => _password;
-            set { _password = value; OnPropertyChanged("Password"); }
+            set { _password = value; OnPropertyChanged(); }
         }
 
         public ICommand SignInCommand { get; private set; }

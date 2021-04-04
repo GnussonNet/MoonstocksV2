@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Moonstocks.Models
 {
@@ -10,22 +12,21 @@ namespace Moonstocks.Models
         public string Name
         {
             get { return _name; }
-            set { _name = value; OnPropertyChanged("Name"); }
+            set { if(_name != value) { _name = value; OnPropertyChanged(); } }
         }
 
-        private StocksModel _stocks;
-        public StocksModel Stocks
+        private Dictionary<string, StockModel> _stocks;
+        public Dictionary<string, StockModel> Stocks
         {
             get { return _stocks; }
-            set { _stocks = value; OnPropertyChanged("Stocks"); }
+            set { if (_stocks != value) { _stocks = value; OnPropertyChanged(); } }
         }
 
         #endregion
 
         #region -- Constructor --
-        public WatchlistModel(StocksModel stocks)
+        public WatchlistModel()
         {
-            Stocks = stocks;
         }
         #endregion
 
@@ -35,12 +36,13 @@ namespace Moonstocks.Models
             return Name;
         }
         #endregion
+
         #region -- INotifyPropertyChnaged --
         // Event
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Method
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)
             {

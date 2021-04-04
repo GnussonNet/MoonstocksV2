@@ -1,34 +1,28 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Moonstocks.Models
 {
-    public class StocksModel : INotifyPropertyChanged
+    public class StockModel : INotifyPropertyChanged
     {
         #region -- Properties --
-        private string _name;
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; OnPropertyChanged("Name"); }
-        }
-
         private string _avgPrice;
         public string AvgPrice
         {
             get { return _avgPrice; }
-            set { _avgPrice = value; OnPropertyChanged("AvgPrice"); }
+            set { if (_avgPrice != value) { _avgPrice = value; OnPropertyChanged(); } }
         }
 
         private string _shares;
         public string Shares
         {
             get { return _shares; }
-            set { _shares = value; OnPropertyChanged("Shares"); }
+            set { if (_shares != value) { _shares = value; OnPropertyChanged(); } }
         }
         #endregion
 
         #region -- Constructor --
-        public StocksModel()
+        public StockModel()
         {
 
         }
@@ -39,7 +33,7 @@ namespace Moonstocks.Models
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Method
-        private void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             if (PropertyChanged != null)
             {

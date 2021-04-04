@@ -20,14 +20,14 @@ namespace Moonstocks.ViewModels
         public bool IsBusy
         {
             get => _isBusy;
-            private set { _isBusy = value; OnPropertyChanged("IsBusy"); }
+            private set { _isBusy = value; OnPropertyChanged(); }
         }
 
         private string _email;
         public string Email
         {
             get => _email;
-            set { _email = value; OnPropertyChanged("Email"); }
+            set { _email = value; OnPropertyChanged(); }
         }
 
         public ICommand ResetPasswordCommand { get; private set; }

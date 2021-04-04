@@ -213,12 +213,11 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\AuthUserModel.cs" />
-    <Compile Include="Models\StocksModel.cs" />
+    <Compile Include="Models\StockModel.cs" />
     <Compile Include="Models\WatchlistModel.cs" />
     <Compile Include="Secrets\Credentials.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Stores\NavigationStore.cs" />
-    <Compile Include="Stores\UserStore.cs" />
     <Compile Include="ViewModels\CreateAccountViewModel.cs" />
     <Compile Include="ViewModels\ForgotPasswordView.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />

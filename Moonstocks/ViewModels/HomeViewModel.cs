@@ -21,8 +21,16 @@ namespace Moonstocks.ViewModels
         public bool IsBusy
         {
             get => _isBusy;
-            private set { _isBusy = value; OnPropertyChanged("IsBusy"); }
+            private set { _isBusy = value; OnPropertyChanged(); }
         }
+
+        private int _listViewSelectedIndex = -1;
+        public int ListViewSelectedIndex
+        {
+            get { return _listViewSelectedIndex; }
+            set { _listViewSelectedIndex = value; OnPropertyChanged(); Message(); }
+        }
+
 
         public string DisplayName { get; }
 
@@ -30,7 +38,7 @@ namespace Moonstocks.ViewModels
         public ObservableCollection<WatchlistModel> Watchlists
         {
             get { return _watchlists; }
-            set { _watchlists = value; }
+            set { _watchlists = value; OnPropertyChanged(); }
         }
 
 
@@ -41,6 +49,7 @@ namespace Moonstocks.ViewModels
         {
             IsBusy = true;
             Watchlists = new ObservableCollection<WatchlistModel>();
+            _navigationStore = navigationStore;
             _userService = userService;
             DisplayName = userService.GetDisplayName();
             SignOutCommand = new RelayCommand(SignOutUser, CanSignOut);
@@ -48,7 +57,6 @@ namespace Moonstocks.ViewModels
 
             GetWatchlists();
             _userService.CurrentUserSignedOut += _userService_CurrentUserSignedOut;
-            IsBusy = false;
         }
 
         private void _userService_CurrentUserSignedOut()
@@ -56,8 +64,14 @@ namespace Moonstocks.ViewModels
             NavigateLogoutCommand.Execute(new NavigateCommand<SignInViewModel>(_navigationStore, () => new SignInViewModel(_navigationStore, _userService)));
         }
 
+        private void Message()
+        {
+            MessageBox.Show(Watchlists[ListViewSelectedIndex].Name);
+        }
+
         private async void GetWatchlists()
         {
+            IsBusy = true;
             var firebase = new FirebaseClient(
               "https://moonstocksdata-default-rtdb.firebaseio.com/",
               new FirebaseOptions
@@ -65,28 +79,36 @@ namespace Moonstocks.ViewModels
                   AuthTokenAsyncFactory = () => Task.FromResult(_userService.GetToken())
               });
 
-            var observable = firebase.Child("users/" + _userService.GetUid()).AsObservable<dynamic>().Subscribe(d =>
+            var WatchlistsandStocks = await firebase.Child("users/" + _userService.GetUid()).OnceAsync<WatchlistModel>();
+
+            foreach (var WatchlistandStock in WatchlistsandStocks) 
             {
-                App.Current.Dispatcher.Invoke((Action)delegate
-                {
-                    string json = ((Newtonsoft.Json.Linq.JContainer)d.Object).Last.Root.Root.ToString();
-                    Watchlists.Add(JsonConvert.DeserializeObject<WatchlistModel>(json));
-                    //MessageBox.Show(json);
+                Watchlists.Add(WatchlistandStock.Object);
+            }
 
-                    //if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
-                    //    Watchlists.Add(d.Object);
-                    //else if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete)
-                    //    Watchlists.Remove(d.Object);
-                    //else
-                    //    Watchlists.Remove(d.Object);
-                });
-            });
+            //var observable = firebase.Child("users/" + _userService.GetUid()).AsObservable<WatchlistModel>().Subscribe(d =>
+            //{
+            //    App.Current.Dispatcher.Invoke((Action)delegate
+            //    {
+            //        //string json = ((Newtonsoft.Json.Linq.JContainer)d.Object).Last.Root.Root.ToString();
+            //        //Watchlists.Add(JsonConvert.DeserializeObject<WatchlistModel>(json));
+            //        //MessageBox.Show(json);
 
+            //        if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
+            //            Watchlists.Add(d.Object);
+            //        else if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete)
+            //            Watchlists.Remove(d.Object);
+            //        else
+            //            Watchlists.Remove(d.Object);
+            //    });
+            //});
+
+            IsBusy = false;
         }
 
         private async Task SignOutUser()
         {
-            _userService.SignOutUser();
+           _userService.SignOutUser();
         }
 
         private bool CanSignOut()

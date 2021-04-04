@@ -91,7 +91,13 @@
                         <RowDefinition Height="2*" />
                     </Grid.RowDefinitions>
 
-                    <ListView ItemsSource="{Binding Watchlists}" FontSize="12" Margin="7" Grid.Row="1" BorderThickness="0" ItemContainerStyle="{DynamicResource ListViewContainerStyle}">
+                    <Border Margin="7 7 0 0" Background="#fff" CornerRadius="5">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" BlurRadius="5" Opacity="0.2" ShadowDepth="1" />
+                        </Border.Effect>
+                    </Border>
+
+                    <ListView ItemsSource="{Binding Watchlists}" SelectedIndex="{Binding ListViewSelectedIndex, UpdateSourceTrigger=PropertyChanged}" FontSize="12" Margin="7,7,1,7" Grid.Row="1" BorderThickness="0" ItemContainerStyle="{DynamicResource ListViewContainerStyle}">
                         <ListView.Template>
                             <ControlTemplate>
                                 <Border Background="#FFFFFF" CornerRadius="5" BorderThickness="0">
@@ -106,7 +112,38 @@
 
                 </Grid>
                 <GridSplitter Background="Transparent" Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch"/>
-                <Grid Grid.Column="2"></Grid>
+                <Grid Grid.Column="2">
+                    <DataGrid Margin="1,7,7,7">
+                        <DataGrid.Template>
+                            <ControlTemplate>
+                                <Border Background="#FFFFFF" CornerRadius="5" BorderThickness="0">
+                                    <Border.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="5" Opacity="0.2" ShadowDepth="1" />
+                                    </Border.Effect>
+                                    <ItemsPresenter></ItemsPresenter>
+                                </Border>
+                            </ControlTemplate>
+                        </DataGrid.Template>
+                        <DataGrid.Resources>
+                            <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
+                                <Setter Property="Background" Value="{DynamicResource Header}" />
+                                <Setter Property="Foreground" Value="{DynamicResource Background}" />
+                                <Setter Property="BorderBrush" Value="#3EFFFFFF"/>
+                                <Setter Property="BorderThickness" Value="1 1 1 1"/>
+                                <Setter Property="Margin" Value="-1,-1,0,0" />
+                                <Setter Property="Height" Value="28" />
+                                <Setter Property="Width" Value="auto"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Path=name}" MinWidth="50" Width="auto" />
+                            <DataGridTextColumn Header="Average Price" Binding="{Binding Path=ticker}" MinWidth="50" Width="auto"/>
+                            <DataGridTextColumn Header="Shares" Binding="{Binding Path=avgPrice}" Width="85"/>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </Grid>
 
             </Grid>
         </Grid>
