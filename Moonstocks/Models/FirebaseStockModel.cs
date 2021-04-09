@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Moonstocks.Models
 {
-    public class StockModel : INotifyPropertyChanged
+    public class FirebaseStockModel : INotifyPropertyChanged
     {
         #region -- Properties --
         private string _name;
@@ -28,11 +28,11 @@ namespace Moonstocks.Models
             set { if (_shares != value) { _shares = value; OnPropertyChanged("Shares"); } }
         }
 
-        private double _daysLeft;
-        public double DaysLeft
+        private DateTime _date;
+        public DateTime Date
         {
-            get { return _daysLeft; }
-            set { if (_daysLeft != value) { _daysLeft = value; OnPropertyChanged("DaysLeft"); } }
+            get { return _date; }
+            set { if (_date != value) { _date = value; OnPropertyChanged("Date"); } }
         }
 
         private bool _active;
@@ -41,11 +41,10 @@ namespace Moonstocks.Models
             get { return _active; }
             set { if (_active != value) { _active = value; OnPropertyChanged("Active"); } }
         }
-
         #endregion
 
         #region -- Constructor --
-        public StockModel()
+        public FirebaseStockModel()
         {
 
         }

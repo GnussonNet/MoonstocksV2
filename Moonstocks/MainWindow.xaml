@@ -10,7 +10,7 @@
         Icon="Resources/logo.png"
         WindowStyle="None"
         Title="Moonstocks"
-        Height="450" Width="800">
+        Height="720" Width="1280">
 
     <!--Add the WindowChrome object-->
     <WindowChrome.WindowChrome>

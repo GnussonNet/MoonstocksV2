@@ -21,7 +21,7 @@
 
     <Grid Background="#F3F5F5">
         <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=true, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
-            <loading:LoadingIndicator Foreground="{DynamicResource Header}" Name="DoubleBounce" Margin="0 -30 0 0" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorDoubleBounceStyle}" />
+            <loading:LoadingIndicator IsTabStop="False" Foreground="{DynamicResource Header}" Name="DoubleBounce" Margin="0 -30 0 0" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorDoubleBounceStyle}" />
             <TextBlock Text="Loading stocks and watchlists" Foreground="{DynamicResource TextHigh}" Margin="0 45 0 0" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
         <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=false, UpdateSourceTrigger=PropertyChanged}">
@@ -97,7 +97,7 @@
                         </Border.Effect>
                     </Border>
 
-                    <ListView ItemsSource="{Binding Watchlists}" SelectedIndex="{Binding ListViewSelectedIndex, UpdateSourceTrigger=PropertyChanged}" FontSize="12" Margin="7,7,1,7" Grid.Row="1" BorderThickness="0" ItemContainerStyle="{DynamicResource ListViewContainerStyle}">
+                    <ListView ItemsSource="{Binding Path=Watchlists, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding ListViewSelectedIndex, UpdateSourceTrigger=PropertyChanged}" FontSize="12" Margin="7,7,1,7" Grid.Row="1" BorderThickness="0" ItemContainerStyle="{DynamicResource ListViewContainerStyle}">
                         <ListView.Template>
                             <ControlTemplate>
                                 <Border Background="#FFFFFF" CornerRadius="5" BorderThickness="0">
@@ -113,17 +113,7 @@
                 </Grid>
                 <GridSplitter Background="Transparent" Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch"/>
                 <Grid Grid.Column="2">
-                    <DataGrid Margin="1,7,7,7">
-                        <DataGrid.Template>
-                            <ControlTemplate>
-                                <Border Background="#FFFFFF" CornerRadius="5" BorderThickness="0">
-                                    <Border.Effect>
-                                        <DropShadowEffect Color="Black" BlurRadius="5" Opacity="0.2" ShadowDepth="1" />
-                                    </Border.Effect>
-                                    <ItemsPresenter></ItemsPresenter>
-                                </Border>
-                            </ControlTemplate>
-                        </DataGrid.Template>
+                    <DataGrid RowHeaderWidth="0" SelectedIndex="{Binding DatagridSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsTabStop="False" ColumnWidth="*" GridLinesVisibility="None" HeadersVisibility="None" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False" Background="#fff" ItemsSource="{Binding Path=SelectedWatchlist, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="1,7,7,7">
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
                                 <Setter Property="Background" Value="{DynamicResource Header}" />
@@ -136,12 +126,52 @@
                                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
                             </Style>
                         </DataGrid.Resources>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{x:Null}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource TextHigh}" />
+                                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.CellStyle>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Path=name}" MinWidth="50" Width="auto" />
-                            <DataGridTextColumn Header="Average Price" Binding="{Binding Path=ticker}" MinWidth="50" Width="auto"/>
-                            <DataGridTextColumn Header="Shares" Binding="{Binding Path=avgPrice}" Width="85"/>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="7">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="auto" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <TextBlock Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                            <DataGrid VerticalAlignment="Center" SelectionMode="Single" RowHeight="28" MinRowHeight="28" ColumnWidth="*" Grid.Row="1" RowHeaderWidth="0" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding Path=StocksOS, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+                                                <DataGrid.RowStyle>
+                                                    <Style TargetType="{x:Type DataGridRow}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=Active}" Value="True">
+                                                                <Setter Property="Background" Value="#c2f0c2" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Path=Active}" Value="False">
+                                                                <Setter Property="Background" Value="#ff8566" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </DataGrid.RowStyle>
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
+                                                    <DataGridTextColumn Header="Average Price" Binding="{Binding Path=AvgPrice}" />
+                                                    <DataGridTextColumn Header="Shares" Binding="{Binding Path=Shares}" />
+                                                    <DataGridTextColumn Header="Days until sell" Binding="{Binding Path=DaysLeft}" />
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Grid>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
-
                     </DataGrid>
                 </Grid>
 

@@ -41,6 +41,12 @@ namespace Moonstocks.ViewModels
             set { _watchlists = value; OnPropertyChanged(); }
         }
 
+        private ObservableCollection<WatchlistModel> _selectedWatchlist = new ObservableCollection<WatchlistModel>();
+        public ObservableCollection<WatchlistModel> SelectedWatchlist
+        {
+            get { return _selectedWatchlist; }
+            set { _selectedWatchlist = value; OnPropertyChanged(); }
+        }
 
         public ICommand NavigateLogoutCommand { get; }
         public ICommand SignOutCommand { get; private set; }
@@ -64,9 +70,18 @@ namespace Moonstocks.ViewModels
             NavigateLogoutCommand.Execute(new NavigateCommand<SignInViewModel>(_navigationStore, () => new SignInViewModel(_navigationStore, _userService)));
         }
 
-        private void Message()
+        private async Task Message()
         {
-            MessageBox.Show(Watchlists[ListViewSelectedIndex].Name);
+            IsBusy = true;
+            await Task.Delay(250).ConfigureAwait(Message1());
+            IsBusy = false;
+        }
+
+        private bool Message1()
+        {
+            SelectedWatchlist.Clear();
+            SelectedWatchlist.Add(Watchlists[ListViewSelectedIndex]);
+            return true;
         }
 
         private async void GetWatchlists()
@@ -79,29 +94,54 @@ namespace Moonstocks.ViewModels
                   AuthTokenAsyncFactory = () => Task.FromResult(_userService.GetToken())
               });
 
+            #region -- No Auto Update --
             var WatchlistsandStocks = await firebase.Child("users/" + _userService.GetUid()).OnceAsync<WatchlistModel>();
-
-            foreach (var WatchlistandStock in WatchlistsandStocks) 
+            foreach (var item in WatchlistsandStocks)
             {
-                Watchlists.Add(WatchlistandStock.Object);
+                foreach (var objectItem in item.Object.Stocks)
+                {
+                    StockModel stockmodel = new StockModel()
+                    {
+                        Name = objectItem.Key,
+                        AvgPrice = objectItem.Value.AvgPrice,
+                        Shares = objectItem.Value.Shares,
+                        DaysLeft = (objectItem.Value.Date.AddYears(1) - new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) ).TotalDays,
+                        Active = objectItem.Value.Active
+                    };
+                    item.Object.StocksOS.Add(stockmodel);
+                }
+                Watchlists.Add(item.Object);
             }
+            #endregion
 
+            #region -- With Auto Update --
             //var observable = firebase.Child("users/" + _userService.GetUid()).AsObservable<WatchlistModel>().Subscribe(d =>
             //{
-            //    App.Current.Dispatcher.Invoke((Action)delegate
+            //    foreach (var item in d.Object.Stocks)
             //    {
-            //        //string json = ((Newtonsoft.Json.Linq.JContainer)d.Object).Last.Root.Root.ToString();
-            //        //Watchlists.Add(JsonConvert.DeserializeObject<WatchlistModel>(json));
-            //        //MessageBox.Show(json);
+            //        // Original it was NewStockModel but this is an test
+            //        StockModel newStockModel = new StockModel()
+            //        {
+            //            Name = item.Key,
+            //            AvgPrice = item.Value.AvgPrice,
+            //            Shares = item.Value.Shares
+            //        };
+            //        App.Current.Dispatcher.Invoke((Action)delegate
+            //        {
+            //            d.Object.StocksOS.Add(newStockModel);
+            //        });
+            //    }
 
-            //        if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.InsertOrUpdate)
-            //            Watchlists.Add(d.Object);
-            //        else if (d.EventType == Firebase.Database.Streaming.FirebaseEventType.Delete)
-            //            Watchlists.Remove(d.Object);
-            //        else
-            //            Watchlists.Remove(d.Object);
+            //    App.Current.Dispatcher.Invoke((Action)delegate 
+            //    {
+            //        //if (Watchlists.Contains(d.Object))
+            //        //    MessageBox.Show("CONTAINS");
+            //        //else
+            //        //    MessageBox.Show("NOT CONTAINS");
+            //        Watchlists.Add(d.Object);
             //    });
             //});
+            #endregion
 
             IsBusy = false;
         }
