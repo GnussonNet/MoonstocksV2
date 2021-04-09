@@ -51,7 +51,7 @@
                     <!--App icon-->
                     <Image Source="/Resources/logo.png" Width="18" Margin="7,2,2,2" HorizontalAlignment="Left" VerticalAlignment="Center" />
                     <!--Title with icon-->
-                    <TextBlock Text="Moonstocks" VerticalAlignment="Center" Foreground="{DynamicResource TextHighAlt}" FontFamily="Arial" Margin="4 0 0 0" />
+                    <TextBlock Text="Moonstocks" VerticalAlignment="Center" Foreground="{DynamicResource TextHighAlt}" Margin="4 0 0 0" FontFamily="Resources/Fonts/#Poppins"/>
                 </StackPanel>
 
                 <!--Caption buttons-->

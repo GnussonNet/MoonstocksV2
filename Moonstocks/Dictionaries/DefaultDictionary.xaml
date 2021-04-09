@@ -4,7 +4,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ColorSchemeDictionary.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
+    
     <!--Base style for title bar buttons-->
     <Style x:Key="CaptionButtonStyle" TargetType="Button">
         <Setter Property="Template">

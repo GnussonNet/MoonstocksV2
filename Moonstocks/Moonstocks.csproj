@@ -297,6 +297,24 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\Fonts\Poppins-Black.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-BlackItalic.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-BoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-ExtraBold.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-ExtraBoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-ExtraLight.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-ExtraLightItalic.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-Italic.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-Light.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-LightItalic.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-Medium.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-MediumItalic.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-Regular.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-SemiBold.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-SemiBoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-Thin.ttf" />
+    <Resource Include="Resources\Fonts\Poppins-ThinItalic.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
