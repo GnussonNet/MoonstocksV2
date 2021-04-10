@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -10,6 +9,7 @@ namespace Moonstocks.Models
     {
 
         #region -- Properties --
+        // Name
         private string _name;
         public string Name
         {
@@ -17,6 +17,7 @@ namespace Moonstocks.Models
             set { if(_name != value) { _name = value; OnPropertyChanged("Name"); } }
         }
 
+        // Dictionary of all stocks and corsponding data (This is for deserializing firebase)
         private Dictionary<string, FirebaseStockModel> _stocks;
         public Dictionary<string, FirebaseStockModel> Stocks
         {
@@ -24,9 +25,8 @@ namespace Moonstocks.Models
             set { if (_stocks != value) { _stocks = value; OnPropertyChanged("Stocks"); } }
         }
 
-        // This was NewStockModel form the beginning. This is a test
+        // OS of all stocks and corsponding data (This is for datagrid)
         private ObservableCollection<StockModel> _stocksOS = new ObservableCollection<StockModel>();
-        //[JsonIgnore]
         public ObservableCollection<StockModel> StocksOS
         {
             get { return _stocksOS; }
@@ -44,6 +44,7 @@ namespace Moonstocks.Models
         #region -- Overrides --
         public override string ToString()
         {
+            // Return name instead of oject
             return Name;
         }
         #endregion

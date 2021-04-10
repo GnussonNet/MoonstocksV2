@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!--Import color scheme-->
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ColorSchemeDictionary.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -47,6 +48,7 @@
         </Setter>
     </Style>
 
+    <!--Base style for primary buttons-->
     <Style x:Key="PrimaryButton" TargetType="Button">
         <Setter Property="Background" Value="{DynamicResource Header}" />
         <Setter Property="Foreground" Value="{DynamicResource TextHighAlt}" />
@@ -77,6 +79,7 @@
         </Setter>
     </Style>
 
+    <!--Style for the forgot password button (Text ish style)-->
     <Style x:Key="ForgotPasswordButton" TargetType="Button">
         <Setter Property="Template">
             <Setter.Value>
@@ -103,6 +106,7 @@
         </Setter>
     </Style>
 
+    <!--Base style for primary textbox-->
     <Style x:Key="PrimaryTextbox" TargetType="{x:Type TextBox}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -138,6 +142,7 @@
         </Setter>
     </Style>
 
+    <!--Base style for primary checkbox-->
     <Style x:Key="primaryCheckbox" TargetType="{x:Type CheckBox}">
         <Setter Property="SnapsToDevicePixels" Value="true" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -244,6 +249,7 @@
         </Setter>
     </Style>
 
+    <!--Base style for primary passwordbox-->
     <Style x:Key="PrimaryPasswordbox" TargetType="{x:Type PasswordBox}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -274,6 +280,7 @@
         </Setter>
     </Style>
 
+    <!--Base style for Listview container-->
     <Style x:Key="ListViewContainerStyle" TargetType="{x:Type ListViewItem}">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Padding" Value="7"/>

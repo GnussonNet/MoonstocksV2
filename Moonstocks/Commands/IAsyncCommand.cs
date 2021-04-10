@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace Moonstocks.Commands
 {
     public interface IAsyncCommand : ICommand
     {
+        #region -- Methods --
+        // Execute async
         Task ExecuteAsync();
+
+        // Can execute
         bool CanExecute();
+        #endregion
     }
 }

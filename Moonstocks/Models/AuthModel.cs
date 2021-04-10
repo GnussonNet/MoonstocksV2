@@ -6,6 +6,7 @@ namespace Moonstocks.Models
     {
 
         #region -- Properties --
+        // Id token
         private string _idToken;
         public string idToken
         {
@@ -13,6 +14,7 @@ namespace Moonstocks.Models
             set { _idToken = value; OnPropertyChanged("idToken"); }
         }
 
+        // Refresh token
         private string _refreshToken;
         public string refreshToken
         {
@@ -20,6 +22,7 @@ namespace Moonstocks.Models
             set { _refreshToken = value; OnPropertyChanged("refreshToken"); }
         }
 
+        // User
         private AuthUserModel _User;
         public AuthUserModel User
         {

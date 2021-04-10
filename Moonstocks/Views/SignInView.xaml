@@ -9,6 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
+    <!--Import default dictionary, loading indicator and converters-->
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -19,17 +20,23 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <!--Content-->
     <Grid Background="{DynamicResource Background}">
+        
+        <!--Loading screen-->
         <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=true, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
+            <!--Loading icon-->
             <loading:LoadingIndicator Foreground="{DynamicResource Header}" Name="DoubleBounce" Margin="0 -30 0 0" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorDoubleBounceStyle}" />
+
+            <!--Loading text-->
             <TextBlock Text="Loading user credentials" Foreground="{DynamicResource TextHigh}" Margin="0 45 0 0" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
+        
+        <!--Main content-->
         <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=false, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="1.5*" />
+                <ColumnDefinition Width="1.5*" MaxWidth="600" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -48,13 +55,16 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
+            <!--Email-->
             <Label Grid.Column="1" Grid.Row="1" Content="Email" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
             <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource PrimaryTextbox}" TabIndex="0" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
 
+            <!--Password-->
             <Label Grid.Column="1" Grid.Row="4" Content="Password" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
             <TextBox Grid.Column="1" Grid.Row="5" Style="{StaticResource PrimaryTextbox}" TabIndex="1" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
             <!--<PasswordBox Grid.Column="1" Grid.Row="5" Style="{StaticResource PrimaryPasswordbox}" TabIndex="1"></PasswordBox>-->
 
+            <!--Remember me and forgot password-->
             <Grid Grid.Column="1" Grid.Row="6">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -64,12 +74,14 @@
                 <Button Grid.Column="1" Style="{StaticResource ForgotPasswordButton}" Height="20" MinWidth="106" Content="Forgot password?" Cursor="Hand" HorizontalContentAlignment="Right" Foreground="{DynamicResource TextHigh}" BorderThickness="0" Command="{Binding ForgotPasswordCommand}" TabIndex="3" />
             </Grid>
 
+            <!--Login button-->
             <Button Grid.Column="1" Grid.Row="7" Content="Login" Style="{StaticResource PrimaryButton}" Command="{Binding SignInCommand}" CommandParameter="{Binding ElementName=txtPassword}" TabIndex="4"></Button>
 
+            <!--Or text-->
             <Label Grid.Column="1" Grid.Row="9" Content="or" Padding="0,6,5,6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="{DynamicResource TextHigh}"></Label>
 
+            <!--Create account button-->
             <Button Grid.Column="1" Grid.Row="10" Content="Create account" Style="{StaticResource PrimaryButton}" Command="{Binding NavigateCreateAccountCommand}" TabIndex="5"></Button>
-
 
         </Grid>
     </Grid>

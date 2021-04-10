@@ -6,6 +6,7 @@ namespace Moonstocks.Models
     {
 
         #region -- Properties --
+        // Id token
         private string _localId;
         public string localId
         {
@@ -13,6 +14,7 @@ namespace Moonstocks.Models
             set { _localId = value; OnPropertyChanged("localId"); }
         }
 
+        // Display name
         private string _displayName;
         public string displayName
         {
@@ -20,6 +22,7 @@ namespace Moonstocks.Models
             set { _displayName = value; OnPropertyChanged("displayName"); }
         }
 
+        // Email
         private string _email;
         public string email
         {
@@ -27,6 +30,7 @@ namespace Moonstocks.Models
             set { _email = value; OnPropertyChanged("email"); }
         }
 
+        // Email verified boolean
         private bool _emailVerified;
         public bool emailVerified
         {

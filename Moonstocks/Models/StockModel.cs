@@ -7,6 +7,7 @@ namespace Moonstocks.Models
     public class StockModel : INotifyPropertyChanged
     {
         #region -- Properties --
+        // Name
         private string _name;
         public string Name
         {
@@ -14,6 +15,7 @@ namespace Moonstocks.Models
             set { if (_name != value) { _name = value; OnPropertyChanged("Name"); } }
         }
 
+        // Average price
         private string _avgPrice;
         public string AvgPrice
         {
@@ -21,6 +23,7 @@ namespace Moonstocks.Models
             set { if (_avgPrice != value) { _avgPrice = value; OnPropertyChanged("AvgPrice"); } }
         }
 
+        // Shares
         private string _shares;
         public string Shares
         {
@@ -28,6 +31,7 @@ namespace Moonstocks.Models
             set { if (_shares != value) { _shares = value; OnPropertyChanged("Shares"); } }
         }
 
+        // Days left to sell
         private double _daysLeft;
         public double DaysLeft
         {
@@ -35,6 +39,7 @@ namespace Moonstocks.Models
             set { if (_daysLeft != value) { _daysLeft = value; OnPropertyChanged("DaysLeft"); } }
         }
 
+        // Active boolean
         private bool _active;
         public bool Active
         {

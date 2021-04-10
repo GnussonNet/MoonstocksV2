@@ -20,6 +20,7 @@
         NonClientFrameEdges="None"/>
     </WindowChrome.WindowChrome>
 
+    <!--Import defualt dictionary-->
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -69,6 +70,7 @@
 
             <!--App content-->
             <ContentControl Grid.Row="1" x:Name="AppArea" Content="{Binding CurrentViewModel}" IsTabStop="False">
+                <!--Define each view and viewmodel-->
                 <ContentControl.Resources>
                     <DataTemplate DataType="{x:Type viewmodels:SignInViewModel}">
                         <views:SignInView />

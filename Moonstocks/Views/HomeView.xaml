@@ -9,6 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
+    <!--Import default dictionary, loading indicator and converters-->
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -20,10 +21,18 @@
     </UserControl.Resources>
 
     <Grid Background="#F3F5F5">
+        
+        <!--Loading screen-->
         <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=true, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.ColumnSpan="2">
+
+            <!--Loadin icon-->
             <loading:LoadingIndicator IsTabStop="False" Foreground="{DynamicResource Header}" Name="DoubleBounce" Margin="0 -30 0 0" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorDoubleBounceStyle}" />
+
+            <!--Loading text-->
             <TextBlock FontFamily="Resources/Fonts/#Poppins" Text="Loading stocks and watchlists" Foreground="{DynamicResource TextHigh}" Margin="0 45 0 0" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
+        
+        <!--Main Content-->
         <Grid Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=false, UpdateSourceTrigger=PropertyChanged}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="35" />
@@ -34,6 +43,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="7" />
             </Grid.ColumnDefinitions>
+            
+            <!--Toolbar-->
             <Grid Grid.ColumnSpan="3" Background="{DynamicResource Header}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="35"/>
@@ -46,7 +57,7 @@
                     <ColumnDefinition Width="105"/>
                 </Grid.ColumnDefinitions>
 
-
+                <!--Signed in user (logout button) -->
                 <Button Grid.Column="7" Padding="0" FontSize="16" Foreground="{DynamicResource TextHighAlt}" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding SignOutCommand}">
                     <Grid Margin="0" Width="auto" Height="35">
                         <Grid.ColumnDefinitions>
@@ -76,8 +87,10 @@
                         </Style>
                     </Button.Style>
                 </Button>
+                
             </Grid>
 
+            <!--Content-->
             <Grid Grid.Row="1" Grid.ColumnSpan="3">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" MinWidth="200" MaxWidth="400" />
@@ -91,19 +104,23 @@
                         <RowDefinition Height="2*" />
                     </Grid.RowDefinitions>
 
+                    <!--Left top area-->
                     <Border Margin="7 7 0 0" Background="#fff" CornerRadius="5">
                         <Border.Effect>
                             <DropShadowEffect Color="Black" BlurRadius="5" Opacity="0.2" ShadowDepth="1" />
                         </Border.Effect>
                     </Border>
 
+                    <!--Listview (Left bottom)-->
                     <ListView FontFamily="/Moonstocks;component/Resources/Fonts/#Poppins Medium" ItemsSource="{Binding Path=Watchlists, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding ListViewSelectedIndex, UpdateSourceTrigger=PropertyChanged}" FontSize="12" Margin="7,7,1,7" Grid.Row="1" BorderThickness="0" ItemContainerStyle="{DynamicResource ListViewContainerStyle}">
                         <ListView.Template>
                             <ControlTemplate>
                                 <Border Background="#FFFFFF" CornerRadius="5" BorderThickness="0">
+                                    <!--Dropshadow-->
                                     <Border.Effect>
                                         <DropShadowEffect Color="Black" BlurRadius="5" Opacity="0.2" ShadowDepth="1" />
                                     </Border.Effect>
+                                    <!--Item presenter-->
                                     <ItemsPresenter></ItemsPresenter>
                                 </Border>
                             </ControlTemplate>
@@ -111,8 +128,14 @@
                     </ListView>
 
                 </Grid>
-                <GridSplitter Background="Transparent" Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch"/>
+                
+                <!--Grid splitter-->
+                <GridSplitter IsTabStop="False" Background="Transparent" Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch"/>
+
+                <!--Right area-->
                 <Grid Grid.Column="2">
+                    
+                    <!--Datagrid-->
                     <DataGrid RowHeaderWidth="0" SelectedIndex="{Binding DatagridSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsTabStop="False" ColumnWidth="*" GridLinesVisibility="None" HeadersVisibility="None" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False" Background="#fff" ItemsSource="{Binding Path=SelectedWatchlist, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="1,7,7,7">
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
@@ -127,6 +150,7 @@
                             </Style>
                         </DataGrid.Resources>
                         <DataGrid.CellStyle>
+                            <!--Disable selection-->
                             <Style TargetType="{x:Type DataGridCell}">
                                 <Style.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
@@ -146,9 +170,13 @@
                                                 <RowDefinition Height="auto" />
                                                 <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
+                                            <!--Watchlist title-->
                                             <TextBlock FontFamily="/Resources/Fonts/#Poppins Bold" Foreground="{DynamicResource Header}" FontWeight="Bold" FontSize="30" Margin="0 20" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+
+                                            <!--Watchlist datagrid-->
                                             <DataGrid FontFamily="/Resources/Fonts/#Poppins" SelectionMode="Single" RowHeight="28" ColumnWidth="*" Grid.Row="1" RowHeaderWidth="0" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding Path=StocksOS, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                                                 <DataGrid.RowStyle>
+                                                    <!--Green background if active and red if non active-->
                                                     <Style TargetType="{x:Type DataGridRow}">
                                                         <Style.Triggers>
                                                             <DataTrigger Binding="{Binding Path=Active}" Value="True">
@@ -160,6 +188,7 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </DataGrid.RowStyle>
+                                                <!--Header colums-->
                                                 <DataGrid.Columns>
                                                     <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
                                                     <DataGridTextColumn Header="Average Price" Binding="{Binding Path=AvgPrice}" />
