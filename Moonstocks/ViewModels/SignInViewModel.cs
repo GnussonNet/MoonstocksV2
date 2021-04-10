@@ -84,7 +84,7 @@ namespace Moonstocks.ViewModels
             _navigationStore = navigationStore;
 
             // Declare sign in relay
-            SignInCommand = new RelayCommand(SignInUser, CanSignIn);
+            SignInCommand = new RelayCommand(async () => { IsBusy = true; await _userService.SignInUser(Email, Password, RememberMe); IsBusy = false; }, CanSignIn);
 
             // Declare navigate forgot password command
             ForgotPasswordCommand = new NavigateCommand<ForgotPasswordView>(_navigationStore, () => new ForgotPasswordView(_navigationStore, _userService));
@@ -101,7 +101,7 @@ namespace Moonstocks.ViewModels
             // If directory where user data is stored exists, Sign in user with stored data
             Directory.CreateDirectory(storedAuthPath);
             if (File.Exists(storedAuthFullPath))
-                SignInUser(File.ReadAllText(storedAuthFullPath));
+                _userService.SignInUser(File.ReadAllText(storedAuthFullPath));
         }
         #endregion
 
@@ -117,55 +117,56 @@ namespace Moonstocks.ViewModels
         /// </summary>
         private async Task SignInUser()
         {
-            // Busy
-            IsBusy = true;
+            //// Busy
+            //IsBusy = true;
 
-            // Define auth provider
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
-            try
-            {
-                // Sign in user
-                _userService.SignInUser(await authProvider.SignInWithEmailAndPasswordAsync(Email, Password), RememberMe);
-            }
-            catch (Exception ex)
-            {
-                // Display error message
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                // Not busy
-                IsBusy = false;
-            }
+            ////// Define auth provider
+            ////var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
+            ////try
+            ////{
+            ////    // Sign in user
+            ////    _userService.SignInUser(await authProvider.SignInWithEmailAndPasswordAsync(Email, Password), RememberMe);
+            ////}
+            ////catch (Exception ex)
+            ////{
+            ////    // Display error message
+            ////    MessageBox.Show(ex.Message);
+            ////}
+            ////finally
+            ////{
+            ////    // Not busy
+            ////    IsBusy = false;
+            ////}
+            //await _userService.SignInUser(Email, Password, RememberMe);
         }
 
         /// <summary>
         /// Sign in user with stored data
         /// </summary>
         /// <param name="userData"> Stored user data in roaming </param>
-        private async void SignInUser(string userData)
-        {
-            // Busy
-            IsBusy = true;
+        //private async void SignInUser(string userData)
+        //{
+        //    // Busy
+        //    IsBusy = true;
 
-            // Define auth provider
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
-            try
-            {
-                // Sign in user
-                _userService.SignInUser(await authProvider.RefreshAuthAsync(JsonConvert.DeserializeObject<FirebaseAuth>(userData)), true);
-            }
-            catch (Exception ex)
-            {
-                // Display error message
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                // Not busy
-                IsBusy = false;
-            }
-        }
+        //    // Define auth provider
+        //    var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
+        //    try
+        //    {
+        //        // Sign in user
+        //        _userService.SignInUser(await authProvider.RefreshAuthAsync(JsonConvert.DeserializeObject<FirebaseAuth>(userData)), true);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Display error message
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //    finally
+        //    {
+        //        // Not busy
+        //        IsBusy = false;
+        //    }
+        //}
 
         private bool CanSignIn()
         {

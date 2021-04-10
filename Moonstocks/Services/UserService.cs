@@ -4,6 +4,8 @@ using Firebase.Auth;
 using Newtonsoft.Json;
 using System.IO;
 using System.Windows;
+using Moonstocks.Secrets;
+using System.Threading.Tasks;
 
 namespace Moonstocks.Services
 {
@@ -79,28 +81,73 @@ namespace Moonstocks.Services
             return CurrentUser.User.localId;
         }
 
-        // Store signed in user data
-        public void SignInUser(FirebaseAuthLink userData, bool saveData)
+        /// <summary>
+        /// Sign in user with email and password
+        /// </summary>
+        /// <param name="email"> Binded to email textbox via SignInViewModel </param>
+        /// <param name="password"> Binded to password textbox via SignInViewModel </param>
+        /// <param name="RememberMe"> Binded to rememberMe checkbox via SignInViewModel </param>
+        public async Task SignInUser(string email, string password, bool RememberMe)
         {
+            // Define authProvider and use Firebase API secret
+            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
             try
             {
-                // Update id token
-                userData.GetFreshAuthAsync();
+                // Store and sign in user with email and password
+                FirebaseAuthLink userData = await authProvider.SignInWithEmailAndPasswordAsync(email, password);
 
-                // Deserialize userData
-                CurrentUser = JsonConvert.DeserializeObject<AuthModel>(JsonConvert.SerializeObject(userData));
+                // Refresh user token
+                await userData.GetFreshAuthAsync();
 
-                // If remember me checkbox is true, store user data
-                if (saveData)
+                // If rememeberMe checkbox is checked, store user data (NOT PASSWORD)
+                if (RememberMe)
                     File.WriteAllText(storedAuthFullPath, JsonConvert.SerializeObject(userData));
 
-                // If no errors, isSignedIn = true
+                // Add userData to CurrentUser
+                CurrentUser = JsonConvert.DeserializeObject<AuthModel>(JsonConvert.SerializeObject(userData));
+
+                // Set signed in state to true (Propertychanged will create an event which redirects the user to home page)
                 IsSignedIn = true;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // If errors, isSignedIn = false
+                // Set signed in state to false
                 IsSignedIn = false;
+
+                // Display error message
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Sign in user with stored user data
+        /// </summary>
+        /// <param name="jsonUserData"> user data stored locally (json format) </param>
+        public async Task SignInUser(string jsonUserData)
+        {
+            // Define auth provider
+            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
+            try
+            {
+                // Sign in user
+                FirebaseAuthLink userData = await authProvider.RefreshAuthAsync(JsonConvert.DeserializeObject<FirebaseAuth>(jsonUserData));
+
+                // Store user data (NOT PASSWORD)
+                File.WriteAllText(storedAuthFullPath, JsonConvert.SerializeObject(userData));
+
+                // Add userData to CurrentUser
+                CurrentUser = JsonConvert.DeserializeObject<AuthModel>(JsonConvert.SerializeObject(userData));
+
+                // Set signed in state to true (Propertychanged will create an event which redirects the user to home page)
+                IsSignedIn = true;
+            }
+            catch (Exception ex)
+            {
+                // Set signed in state to false
+                IsSignedIn = false;
+
+                // Display error message
+                MessageBox.Show(ex.Message);
             }
         }
 
