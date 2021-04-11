@@ -28,7 +28,7 @@
             <loading:LoadingIndicator Foreground="{DynamicResource Header}" Name="DoubleBounce" Margin="0 -30 0 0" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorDoubleBounceStyle}" />
 
             <!--Loading text-->
-            <TextBlock Text="Loading user credentials" Foreground="{DynamicResource TextHigh}" Margin="0 45 0 0" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="Loading user credentials" Foreground="{DynamicResource TextHigh}" Margin="0 65 0 0" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Resources/Fonts/#Poppins Medium" FontWeight="Medium"/>
         </Grid>
         
         <!--Main content-->
@@ -56,12 +56,12 @@
             </Grid.RowDefinitions>
 
             <!--Email-->
-            <Label Grid.Column="1" Grid.Row="1" Content="Email" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
-            <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource PrimaryTextbox}" TabIndex="0" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Column="1" Grid.Row="1" Content="Email" Padding="0,7,5,7" Foreground="{DynamicResource TextHigh}" FontFamily="Resources/Fonts/#Poppins"></Label>
+            <TextBox Grid.Column="1" Grid.Row="2" Style="{StaticResource PrimaryTextbox}" TabIndex="0" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Resources/Fonts/#Poppins" FontSize="13"></TextBox>
 
             <!--Password-->
-            <Label Grid.Column="1" Grid.Row="4" Content="Password" Padding="0,6,5,6" Foreground="{DynamicResource TextHigh}"></Label>
-            <TextBox Grid.Column="1" Grid.Row="5" Style="{StaticResource PrimaryTextbox}" TabIndex="1" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Grid.Column="1" Grid.Row="4" Content="Password" Padding="0,7,5,7" Foreground="{DynamicResource TextHigh}" FontFamily="Resources/Fonts/#Poppins"></Label>
+            <TextBox Grid.Column="1" Grid.Row="5" Style="{StaticResource PrimaryTextbox}" TabIndex="1" Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Resources/Fonts/#Poppins" FontSize="13"></TextBox>
             <!--<PasswordBox Grid.Column="1" Grid.Row="5" Style="{StaticResource PrimaryPasswordbox}" TabIndex="1"></PasswordBox>-->
 
             <!--Remember me and forgot password-->
@@ -70,18 +70,18 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <CheckBox Grid.Column="0" Style="{StaticResource primaryCheckbox}" HorizontalAlignment="Left" Margin="0 8" Content="Remember me" IsChecked="{Binding RememberMe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2"></CheckBox>
-                <Button Grid.Column="1" Style="{StaticResource ForgotPasswordButton}" Height="20" MinWidth="106" Content="Forgot password?" Cursor="Hand" HorizontalContentAlignment="Right" Foreground="{DynamicResource TextHigh}" BorderThickness="0" Command="{Binding ForgotPasswordCommand}" TabIndex="3" />
+                <CheckBox Grid.Column="0" Style="{StaticResource primaryCheckbox}" HorizontalAlignment="Left" Margin="0 8" Content="Remember me" IsChecked="{Binding RememberMe, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" TabIndex="2" FontFamily="Resources/Fonts/#Poppins"></CheckBox>
+                <Button Grid.Column="1" Style="{StaticResource ForgotPasswordButton}" Height="20" MinWidth="106" Content="Forgot password?" Cursor="Hand" HorizontalContentAlignment="Right" Foreground="{DynamicResource TextHigh}" BorderThickness="0" Command="{Binding ForgotPasswordCommand}" TabIndex="3" FontFamily="Resources/Fonts/#Poppins" />
             </Grid>
 
             <!--Login button-->
-            <Button Grid.Column="1" Grid.Row="7" Content="Login" Style="{StaticResource PrimaryButton}" Command="{Binding SignInCommand}" CommandParameter="{Binding ElementName=txtPassword}" TabIndex="4"></Button>
+            <Button Grid.Column="1" Grid.Row="7" Content="Login" Style="{StaticResource PrimaryButton}" Command="{Binding SignInCommand}" CommandParameter="{Binding ElementName=txtPassword}" TabIndex="4" FontFamily="Resources/Fonts/#Poppins" FontSize="13"></Button>
 
             <!--Or text-->
-            <Label Grid.Column="1" Grid.Row="9" Content="or" Padding="0,6,5,6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="{DynamicResource TextHigh}"></Label>
+            <Label Grid.Column="1" Grid.Row="9" Content="or" Padding="0,6,5,6" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="{DynamicResource TextHigh}" FontFamily="Resources/Fonts/#Poppins"></Label>
 
             <!--Create account button-->
-            <Button Grid.Column="1" Grid.Row="10" Content="Create account" Style="{StaticResource PrimaryButton}" Command="{Binding NavigateCreateAccountCommand}" TabIndex="5"></Button>
+            <Button Grid.Column="1" Grid.Row="10" Content="Create account" Style="{StaticResource PrimaryButton}" Command="{Binding NavigateCreateAccountCommand}" TabIndex="5" FontFamily="Resources/Fonts/#Poppins" FontSize="13"></Button>
 
         </Grid>
     </Grid>

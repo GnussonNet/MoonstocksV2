@@ -210,6 +210,7 @@
     <Compile Include="Commands\IAsyncCommand.cs" />
     <Compile Include="Commands\NavigateCommand.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Commands\SignInCommand.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Models\AuthModel.cs" />
     <Compile Include="Models\AuthUserModel.cs" />

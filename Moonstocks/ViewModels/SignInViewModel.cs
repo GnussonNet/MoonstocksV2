@@ -3,6 +3,7 @@ using Moonstocks.Services;
 using Moonstocks.Stores;
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -14,7 +15,7 @@ namespace Moonstocks.ViewModels
         // Stored user data location
         string storedAuthPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Moonstocks");
 
-        // Stored user data location full
+        // Stored user data full location
         string storedAuthFullPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Moonstocks/authData.json");
         #endregion
 
@@ -30,7 +31,7 @@ namespace Moonstocks.ViewModels
         public bool IsBusy
         {
             get => _isBusy;
-            private set { _isBusy = value; OnPropertyChanged(); }
+            set { _isBusy = value; OnPropertyChanged(); }
         }
 
         // Remember me boolean
@@ -46,7 +47,7 @@ namespace Moonstocks.ViewModels
         public string Email
         {
             get => _email;
-            set { _email = value; OnPropertyChanged(); }
+            set { _email = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanSignIn)); }
         }
 
         // Password
@@ -54,8 +55,16 @@ namespace Moonstocks.ViewModels
         public string Password
         {
             get => _password;
-            set { _password = value; OnPropertyChanged(); }
+            set { _password = value; OnPropertyChanged(); OnPropertyChanged(nameof(CanSignIn)); }
         }
+
+        //public bool CanSignIn => !string.IsNullOrEmpty(Email) && Email.Length > 4;
+        public bool CanSignIn => Email != null &&
+            Password != null &&
+            new Regex(@"^(?!\.)(""([^""\r\\]|\\[""\r\\])*""|" + @"([-a-z0-9!#$%&'*+/=?^_`{|}~]|(?<!\.)\.)*)(?<!\.)" + @"@[a-z0-9][\w\.-]*[a-z0-9]\.[a-z][a-z\.]*[a-z]$",
+                RegexOptions.IgnoreCase).
+            IsMatch(Email) && Password.Length > 6;
+
 
         // Sign in relay
         public ICommand SignInCommand { get; private set; }
@@ -81,8 +90,9 @@ namespace Moonstocks.ViewModels
             // Get navigation store
             _navigationStore = navigationStore;
 
+            #region Commands
             // Declare sign in relay
-            SignInCommand = new RelayCommand(async () => { IsBusy = true; await _userService.SignInUser(Email, Password, RememberMe); IsBusy = false; }, CanSignIn);
+            SignInCommand = new SignInCommand(this, _userService);
 
             // Declare navigate forgot password command
             ForgotPasswordCommand = new NavigateCommand<ForgotPasswordView>(_navigationStore, () => new ForgotPasswordView(_navigationStore, _userService));
@@ -92,9 +102,10 @@ namespace Moonstocks.ViewModels
 
             // Declare navigate create account command
             NavigateCreateAccountCommand = new NavigateCommand<CreateAccountViewModel>(navigationStore, () => new CreateAccountViewModel(navigationStore, _userService));
+            #endregion
 
-            // Subscribe to user service - user signed in
-            _userService.CurrentUserSignedIn += CurrentUserSignedIn;
+            // Subscribe to Current user signed in to automatically navigate user when signed in
+            _userService.CurrentUserSignedIn += UserSignedIn;
 
             // If directory where user data is stored exists, Sign in user with stored data
             Directory.CreateDirectory(storedAuthPath);
@@ -106,15 +117,10 @@ namespace Moonstocks.ViewModels
         #endregion
 
         #region -- Methods --
-        private void CurrentUserSignedIn()
+        private void UserSignedIn()
         {
             // Navigate create account command
-            NavigateHomeCommand.Execute(new NavigateCommand<CreateAccountViewModel>(_navigationStore, () => new CreateAccountViewModel(_navigationStore, _userService)));
-        }
-
-        private bool CanSignIn()
-        {
-            return true;
+            NavigateHomeCommand.Execute(new NavigateCommand<HomeViewModel>(_navigationStore, () => new HomeViewModel(_navigationStore, _userService)));
         }
         #endregion
     }

@@ -29,7 +29,7 @@
             <loading:LoadingIndicator IsTabStop="False" Foreground="{DynamicResource Header}" Name="DoubleBounce" Margin="0 -30 0 0" SpeedRatio="1" IsActive="True" Style="{DynamicResource LoadingIndicatorDoubleBounceStyle}" />
 
             <!--Loading text-->
-            <TextBlock FontFamily="Resources/Fonts/#Poppins" Text="Loading stocks and watchlists" Foreground="{DynamicResource TextHigh}" Margin="0 45 0 0" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="Loading stocks and watchlists" Foreground="{DynamicResource TextHigh}" Margin="0 65 0 0" FontSize="17" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Resources/Fonts/#Poppins Medium" FontWeight="Medium"/>
         </Grid>
         
         <!--Main Content-->
@@ -58,13 +58,13 @@
                 </Grid.ColumnDefinitions>
 
                 <!--Signed in user (logout button) -->
-                <Button Grid.Column="7" Padding="0" FontSize="16" Foreground="{DynamicResource TextHighAlt}" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding SignOutCommand}">
+                <Button Grid.Column="7" Padding="0" FontSize="16" Foreground="{DynamicResource TextHighAlt}" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding SignOutCommand}" FontFamily="Resources/Fonts/#Poppins">
                     <Grid Margin="0" Width="auto" Height="35">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="35" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock FontSize="14" Text="{Binding DisplayName}" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Right" ></TextBlock>
+                        <TextBlock FontSize="14" Text="{Binding DisplayName}" Margin="10 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Right" FontFamily="Resources/Fonts/#Poppins"></TextBlock>
                         <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Text="&#xE77B;"></TextBlock>
                     </Grid>
                     <Button.Style>
@@ -112,7 +112,7 @@
                     </Border>
 
                     <!--Listview (Left bottom)-->
-                    <ListView FontFamily="/Moonstocks;component/Resources/Fonts/#Poppins Medium" ItemsSource="{Binding Path=Watchlists, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding ListViewSelectedIndex, UpdateSourceTrigger=PropertyChanged}" FontSize="12" Margin="7,7,1,7" Grid.Row="1" BorderThickness="0" ItemContainerStyle="{DynamicResource ListViewContainerStyle}">
+                    <ListView FontFamily="Resources/Fonts/#Poppins Medium" FontWeight="Medium" ItemsSource="{Binding Path=Watchlists, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding ListViewSelectedIndex, UpdateSourceTrigger=PropertyChanged}" FontSize="12" Margin="7,7,1,7" Grid.Row="1" BorderThickness="0" ItemContainerStyle="{DynamicResource ListViewContainerStyle}">
                         <ListView.Template>
                             <ControlTemplate>
                                 <Border Background="#FFFFFF" CornerRadius="5" BorderThickness="0">
