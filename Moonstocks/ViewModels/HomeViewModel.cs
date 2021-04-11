@@ -137,7 +137,7 @@ namespace Moonstocks.ViewModels
 
             #region -- No Auto Update --
             // Define watchlists and stocks (all watchlist in users directory)
-            var WatchlistsandStocks = await firebase.Child("users/" + _userService.GetUid()).OrderByKey().OnceAsync<WatchlistModel>();
+            var WatchlistsandStocks = await firebase.Child("users/" + _userService.ToString()).OrderByKey().OnceAsync<WatchlistModel>();
 
             // Each watchlist
             foreach (var watchlists in WatchlistsandStocks)

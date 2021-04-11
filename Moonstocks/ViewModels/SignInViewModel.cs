@@ -1,13 +1,9 @@
-﻿using Firebase.Auth;
-using Moonstocks.Commands;
-using Moonstocks.Secrets;
+﻿using Moonstocks.Commands;
 using Moonstocks.Services;
 using Moonstocks.Stores;
-using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Moonstocks.ViewModels
@@ -77,6 +73,8 @@ namespace Moonstocks.ViewModels
         #region -- Constructor --
         public SignInViewModel(NavigationStore navigationStore, UserService userService)
         {
+            IsBusy = true;
+
             // Get user service
             _userService = userService;
 
@@ -102,6 +100,8 @@ namespace Moonstocks.ViewModels
             Directory.CreateDirectory(storedAuthPath);
             if (File.Exists(storedAuthFullPath))
                 _userService.SignInUser(File.ReadAllText(storedAuthFullPath));
+            else
+                IsBusy = false;
         }
         #endregion
 
@@ -112,65 +112,8 @@ namespace Moonstocks.ViewModels
             NavigateHomeCommand.Execute(new NavigateCommand<CreateAccountViewModel>(_navigationStore, () => new CreateAccountViewModel(_navigationStore, _userService)));
         }
 
-        /// <summary>
-        /// Sign in user with Email and Password
-        /// </summary>
-        private async Task SignInUser()
-        {
-            //// Busy
-            //IsBusy = true;
-
-            ////// Define auth provider
-            ////var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
-            ////try
-            ////{
-            ////    // Sign in user
-            ////    _userService.SignInUser(await authProvider.SignInWithEmailAndPasswordAsync(Email, Password), RememberMe);
-            ////}
-            ////catch (Exception ex)
-            ////{
-            ////    // Display error message
-            ////    MessageBox.Show(ex.Message);
-            ////}
-            ////finally
-            ////{
-            ////    // Not busy
-            ////    IsBusy = false;
-            ////}
-            //await _userService.SignInUser(Email, Password, RememberMe);
-        }
-
-        /// <summary>
-        /// Sign in user with stored data
-        /// </summary>
-        /// <param name="userData"> Stored user data in roaming </param>
-        //private async void SignInUser(string userData)
-        //{
-        //    // Busy
-        //    IsBusy = true;
-
-        //    // Define auth provider
-        //    var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
-        //    try
-        //    {
-        //        // Sign in user
-        //        _userService.SignInUser(await authProvider.RefreshAuthAsync(JsonConvert.DeserializeObject<FirebaseAuth>(userData)), true);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Display error message
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //    finally
-        //    {
-        //        // Not busy
-        //        IsBusy = false;
-        //    }
-        //}
-
         private bool CanSignIn()
         {
-            // Return true to sign in relay
             return true;
         }
         #endregion

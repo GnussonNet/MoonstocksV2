@@ -12,26 +12,26 @@ namespace Moonstocks.Services
     public class UserService
     {
         #region -- Global ish --
-        // Auth Data json file location path
+        // This is the location for the user data. This is required to be able to auto signin user
         string storedAuthFullPath = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Moonstocks/authData.json");
         #endregion
 
         #region -- Events --
-        // Current user changed
+        // This event fires when any user chnages are made
         public event Action CurrentUserChanged;
 
-        // User signed in
+        // This event fires when a user signs in. It is required to redirect user to home page when successfully signed in
         public event Action CurrentUserSignedIn;
 
-        // User signed out
+        // Fires when a user signs out. Required to redirect user to sign in page after succssfully signed out
         public event Action CurrentUserSignedOut;
 
-        // User created
+        // Fires when a new user is created. Required to redirect user to sign in page after successfully created a new account
         public event Action UserCreated;
         #endregion
 
         #region -- Properties --
-        // Is signed in boolean
+        // This boolean is required to automatically redirect users between pages depending on sign in status
         private bool _isSignedIn = false;
         public bool IsSignedIn
         {
@@ -39,7 +39,8 @@ namespace Moonstocks.Services
             set { _isSignedIn = value; OnCurrentUserSignedInChanged(); }
         }
 
-        // Current user data
+        // This stores the users token etc. Via this property the other viewmodels can access user information (NOT PASSWORD)
+        // The reason why this is not named UserModel is because this deserializes from FirebaseAuthLink, therefor authModel
         private AuthModel _currentUser;
         public AuthModel CurrentUser
         {
@@ -56,29 +57,29 @@ namespace Moonstocks.Services
         #region -- Constructor --
         public UserService()
         {
-            // Create new user with authModel and authUserModel
+            // This just defins the CurrentUser AuthModel. It is necessarily else will give an error "can't get .... of null"
             CurrentUser = new AuthModel();
             CurrentUser.User = new AuthUserModel();
         }
         #endregion
 
         #region -- Methods --
-        // Return user displayname
+        /// <summary>
+        /// Simply return the users displayname. Could be accessed by "UserService.CurrentUser.User.displayName" which is very long and un pleasant 
+        /// </summary>
+        /// <returns> Users displayName </returns>
         public string GetDisplayName()
         {
             return CurrentUser.User.displayName;
         }
 
-        // Return user Id token
+        /// <summary>
+        /// This returns the users authentication token. This is a shortcut to "UserService.CurrentUser.User.idToken"
+        /// </summary>
+        /// <returns> Users authentication token </returns>
         public string GetToken()
         {
             return CurrentUser.idToken;
-        }
-
-        // Return user Id
-        public string GetUid()
-        {
-            return CurrentUser.User.localId;
         }
 
         /// <summary>
@@ -89,21 +90,21 @@ namespace Moonstocks.Services
         /// <param name="RememberMe"> Binded to rememberMe checkbox via SignInViewModel </param>
         public async Task SignInUser(string email, string password, bool RememberMe)
         {
-            // Define authProvider and use Firebase API secret
+            // New Firebase auth provider, using firebase secrets in ./secrets/Credentials.cs/FirebaseApiKey
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
             try
             {
                 // Store and sign in user with email and password
                 FirebaseAuthLink userData = await authProvider.SignInWithEmailAndPasswordAsync(email, password);
 
-                // Refresh user token
+                // Refresh user token (this is necessarily to always have a valid auth token)
                 await userData.GetFreshAuthAsync();
 
-                // If rememeberMe checkbox is checked, store user data (NOT PASSWORD)
+                // Store user data ONLY if user checked the checkbox. (This does NOT store PASSWORD)
                 if (RememberMe)
                     File.WriteAllText(storedAuthFullPath, JsonConvert.SerializeObject(userData));
 
-                // Add userData to CurrentUser
+                // Serialize, Deserialize users data to the current user Auth Model propertie. This is required to be able to access user from all views and viewmodels
                 CurrentUser = JsonConvert.DeserializeObject<AuthModel>(JsonConvert.SerializeObject(userData));
 
                 // Set signed in state to true (Propertychanged will create an event which redirects the user to home page)
@@ -111,10 +112,9 @@ namespace Moonstocks.Services
             }
             catch (Exception ex)
             {
-                // Set signed in state to false
+                // If by any chance the user is signed in this will make sure the user gets signed out
                 IsSignedIn = false;
 
-                // Display error message
                 MessageBox.Show(ex.Message);
             }
         }
@@ -125,17 +125,17 @@ namespace Moonstocks.Services
         /// <param name="jsonUserData"> user data stored locally (json format) </param>
         public async Task SignInUser(string jsonUserData)
         {
-            // Define auth provider
+            // New Firebase auth provider, using firebase secrets in ./secrets/Credentials.cs/FirebaseApiKey
             var authProvider = new FirebaseAuthProvider(new FirebaseConfig(Credentials.FirebaseApiKey));
             try
             {
-                // Sign in user
+                // Store and sign in user with the stored user data
                 FirebaseAuthLink userData = await authProvider.RefreshAuthAsync(JsonConvert.DeserializeObject<FirebaseAuth>(jsonUserData));
 
                 // Store user data (NOT PASSWORD)
                 File.WriteAllText(storedAuthFullPath, JsonConvert.SerializeObject(userData));
 
-                // Add userData to CurrentUser
+                // Serialize, Deserialize users data to the current user Auth Model propertie. This is required to be able to access user from all views and viewmodels
                 CurrentUser = JsonConvert.DeserializeObject<AuthModel>(JsonConvert.SerializeObject(userData));
 
                 // Set signed in state to true (Propertychanged will create an event which redirects the user to home page)
@@ -143,7 +143,7 @@ namespace Moonstocks.Services
             }
             catch (Exception ex)
             {
-                // Set signed in state to false
+                // If by any chance the user is signed in this will make sure the user gets signed out
                 IsSignedIn = false;
 
                 // Display error message
@@ -156,14 +156,16 @@ namespace Moonstocks.Services
         {
             try
             {
-                // Update user data
+                // I DO NOT KNOW WHY I REFRESH THE USERS TOKEN WHEN CREATING AN ACCOUNT...
+                // Refresh user token (this is necessarily to always have a valid auth token)
                 userData.GetFreshAuthAsync();
 
-                // Invoke user created event
+                // Fire user created event. Needed to navigate user to sign in page
                 UserCreated?.Invoke();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -171,42 +173,42 @@ namespace Moonstocks.Services
         {
             try
             {
-                // If userdata is stored, delete it
+                // THIS SHOULD MAKE THE AUTH TOKEN INVALID TO MAKE SURE NO HACKERS CAN ACCESS THE ACCOUNT
+                // If userdata is stored, delete it. This is to make sure the auth token is gone.
                 if (File.Exists(storedAuthFullPath))
                     File.Delete(storedAuthFullPath);
 
                 // Clear current user
                 CurrentUser = null;
 
-                // IsSignedIn = false
+                // Set signed in state to false (Propertychanged will create an event which redirects the user to sign in page)
                 IsSignedIn = false;
 
             }
             catch (Exception ex)
             {
-                // If any errors, Show messagebox with error message
-                MessageBox.Show("Something went wrong when trying to signout\n" +ex.Message);
-
-                // If id token still exists, isSignedIn true 
+                // If the signout proccess is given any errors and the user still is signed in, this will keep the user signed in
                 if (CurrentUser.idToken != null)
                     IsSignedIn = true;
+
+                MessageBox.Show(ex.Message);
             }
         }
 
         private void OnCurrentUserSignedInChanged()
         {
-            // If signed in, invoke signed in event
+            // If user is signed in, fire the signed in event to redirect user to home page
             if (IsSignedIn)
                 CurrentUserSignedIn?.Invoke();
 
-            // If signed out, invoke signed out event 
+            // If user is signed out, fire the signed out event to redirect user to sign in page
             else
                 CurrentUserSignedOut?.Invoke();
         }
 
         private void OnCurrentUserChanged()
         {
-            // Invoke userchanged event
+            // If any user data is changed ex. auth token etc. fire user changed event to update subscribed models
             CurrentUserChanged?.Invoke();
         }
         #endregion
@@ -214,7 +216,8 @@ namespace Moonstocks.Services
         #region -- Overrides --
         public override string ToString()
         {
-            // Return user uid instead of object
+            // This returs the signed in users uid. This makes things easier when trying to access the users uid
+            // Could be replaced by a method called "getUid" but this is more pleasant
             return _currentUser.User.localId;
         }
         #endregion
