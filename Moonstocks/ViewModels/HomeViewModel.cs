@@ -139,29 +139,33 @@ namespace Moonstocks.ViewModels
             // Define watchlists and stocks (all watchlist in users directory)
             var WatchlistsandStocks = await firebase.Child("users/" + _userService.ToString()).OrderByKey().OnceAsync<WatchlistModel>();
 
-            // Each watchlist
-            foreach (var watchlists in WatchlistsandStocks)
-            {
-                // Each stock 
-                foreach (var objectItem in watchlists.Object.Stocks)
+            if (WatchlistsandStocks != null && WatchlistsandStocks.Count != 0)
+                // Each watchlist
+                foreach (var watchlists in WatchlistsandStocks)
                 {
-                    // Declare and and stock data to a new stockmodel
-                    StockModel stockmodel = new StockModel()
+                    if (watchlists.Object.Stocks != null && watchlists.Object.Stocks.Count != 0)
                     {
-                        Name = objectItem.Key,
-                        AvgPrice = objectItem.Value.AvgPrice,
-                        Shares = objectItem.Value.Shares,
+                        // Each stock 
+                        foreach (var objectItem in watchlists.Object.Stocks)
+                        {
+                            // Declare and and stock data to a new stockmodel
+                            StockModel stockmodel = new StockModel()
+                            {
+                                Name = objectItem.Key,
+                                AvgPrice = objectItem.Value.AvgPrice,
+                                Shares = objectItem.Value.Shares,
 
-                        // Calculate days left (date purchased + 1 year - todays date) 
-                        DaysLeft = (objectItem.Value.Date.AddYears(1) - new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day) ).TotalDays,
-                        Active = objectItem.Value.Active
-                    };
-                    // Add new stockmodel to watchlist StocksOS OS (used for datagrid)
-                    watchlists.Object.StocksOS.Add(stockmodel);
+                                // Calculate days left (date purchased + 1 year - todays date) 
+                                DaysLeft = (objectItem.Value.Date.AddYears(1) - new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)).TotalDays,
+                                Active = objectItem.Value.Active
+                            };
+                            // Add new stockmodel to watchlist StocksOS OS (used for datagrid)
+                            watchlists.Object.StocksOS.Add(stockmodel);
+                        }
+                        // Add watchlist to Watchlists OS
+                        Watchlists.Add(watchlists.Object);
+                    }
                 }
-                // Add watchlist to Watchlists OS
-                Watchlists.Add(watchlists.Object);
-            }
             #endregion
 
             #region -- With Auto Update --
@@ -201,7 +205,7 @@ namespace Moonstocks.ViewModels
         private async Task SignOutUser()
         {
             // Sign out user
-            _userService.SignOutUser();
+            await _userService.SignOutUser();
         }
 
         private bool CanSignOut()

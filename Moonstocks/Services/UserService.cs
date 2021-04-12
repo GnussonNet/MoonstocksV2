@@ -6,6 +6,9 @@ using System.IO;
 using System.Windows;
 using Moonstocks.Secrets;
 using System.Threading.Tasks;
+using Firebase.Database;
+using Firebase.Database.Query;
+using System.Collections.Generic;
 
 namespace Moonstocks.Services
 {
@@ -152,13 +155,41 @@ namespace Moonstocks.Services
         }
 
         // Created account
-        public void CreateAccount(FirebaseAuthLink userData)
+        public async void CreateAccount(FirebaseAuthLink userData)
         {
             try
             {
-                // I DO NOT KNOW WHY I REFRESH THE USERS TOKEN WHEN CREATING AN ACCOUNT...
                 // Refresh user token (this is necessarily to always have a valid auth token)
-                userData.GetFreshAuthAsync();
+                await userData.GetFreshAuthAsync();
+
+                // define firebase and change settings
+                var firebase = new FirebaseClient(
+                  "https://moonstocksdata-default-rtdb.firebaseio.com/",
+                  new FirebaseOptions
+                  {
+                      AuthTokenAsyncFactory = () => Task.FromResult(userData.FirebaseToken)
+                  });
+
+                FirebaseStockModel newUserStock = new FirebaseStockModel()
+                {
+                    Name = "Apple",
+                    AvgPrice = "1",
+                    Shares = "1",
+                    Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
+                    Active = true
+                };
+
+                Dictionary<string, FirebaseStockModel> newUserStock1 = new Dictionary<string, FirebaseStockModel>();
+                newUserStock1.Add("Apple", newUserStock);
+
+                WatchlistModel newUserWatchlist = new WatchlistModel()
+                {
+                    Name = "My Watchlist",
+                    Stocks = newUserStock1
+                };
+
+                // Define watchlists and stocks (all watchlist in users directory)
+                await firebase.Child("users/"+userData.User.LocalId+"/My Watchlist").PutAsync(newUserWatchlist);
 
                 // Fire user created event. Needed to navigate user to sign in page
                 UserCreated?.Invoke();
@@ -169,7 +200,7 @@ namespace Moonstocks.Services
             }
         }
 
-        public void SignOutUser()
+        public async Task SignOutUser()
         {
             try
             {
