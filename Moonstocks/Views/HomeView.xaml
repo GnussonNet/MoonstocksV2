@@ -195,10 +195,13 @@
                 <GridSplitter IsTabStop="False" Background="Transparent" Grid.Column="1" ResizeDirection="Columns" ResizeBehavior="PreviousAndNext" HorizontalAlignment="Stretch"/>
 
                 <!--Right area-->
-                <Grid Grid.Column="2">
-                    
+                <Border Grid.Column="2" CornerRadius="5" Padding="5" Background="#fff"  Margin="1,7,7,7">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="5" Opacity="0.2" ShadowDepth="1" />
+                    </Border.Effect>
+
                     <!--Datagrid-->
-                    <DataGrid RowHeaderWidth="0" SelectedIndex="{Binding DatagridSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsTabStop="False" ColumnWidth="*" GridLinesVisibility="None" HeadersVisibility="None" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False" Background="#fff" ItemsSource="{Binding Path=SelectedWatchlist, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Margin="1,7,7,7">
+                    <DataGrid VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled" RowHeaderWidth="0" SelectedIndex="{Binding DatagridSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsTabStop="False" ColumnWidth="*" GridLinesVisibility="None" HeadersVisibility="None" CanUserAddRows="False" CanUserDeleteRows="False" IsReadOnly="True" AutoGenerateColumns="False" Background="#fff" ItemsSource="{Binding Path=SelectedWatchlist, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0">
                         <DataGrid.Resources>
                             <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}" >
                                 <Setter Property="Background" Value="{DynamicResource Header}" />
@@ -233,10 +236,10 @@
                                                 <RowDefinition Height="*" />
                                             </Grid.RowDefinitions>
                                             <!--Watchlist title-->
-                                            <TextBlock FontFamily="/Resources/Fonts/#Poppins Bold" Foreground="{DynamicResource Header}" FontWeight="Bold" FontSize="30" Margin="0 20" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
+                                            <TextBlock FontFamily="/Resources/Fonts/#Poppins Bold" Foreground="{DynamicResource Header}" FontWeight="Bold" FontSize="30" Margin="0 15 0 20" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}" />
 
                                             <!--Watchlist datagrid-->
-                                            <DataGrid BorderThickness="0" BorderBrush="Black" FontFamily="/Resources/Fonts/#Poppins" SelectionMode="Single" RowHeight="28" ColumnWidth="*" Grid.Row="1" RowHeaderWidth="0" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding Path=StocksOS, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+                                            <DataGrid FrozenColumnCount="1" GridLinesVisibility="Horizontal" BorderThickness="0" BorderBrush="Black" FontFamily="/Resources/Fonts/#Poppins" SelectionMode="Single" RowHeight="35" ColumnWidth="*" Grid.Row="1" RowHeaderWidth="0" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding Path=StocksOS, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                                                 <DataGrid.RowStyle>
                                                     <!--Green background if active and red if non active-->
                                                     <Style TargetType="{x:Type DataGridRow}">
@@ -250,14 +253,41 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </DataGrid.RowStyle>
+                                                <DataGrid.CellStyle>
+                                                    <!--Disable selection-->
+                                                    <Style TargetType="{x:Type DataGridCell}">
+                                                        <Style.Triggers>
+                                                            <Trigger Property="IsSelected" Value="True">
+                                                                <Setter Property="Background" Value="Transparent" />
+                                                                <Setter Property="Foreground" Value="{DynamicResource Header}" />
+                                                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                                                    <Grid Background="{TemplateBinding Background}">
+                                                                        <ContentPresenter VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </DataGrid.CellStyle>
                                                 <!--Header colums-->
                                                 <DataGrid.Columns>
-                                                    <DataGridTextColumn Header="Ticker" Binding="{Binding Path=Ticker}" Width="auto" MinWidth="60" />
-                                                    <DataGridTextColumn Header="Company" Binding="{Binding Path=Company}" Width="auto" MinWidth="70" />
+                                                    <DataGridTextColumn Header="Ticker" Binding="{Binding Path=Ticker}" Width="auto" MinWidth="120" />
+                                                    <DataGridTextColumn Header="Company" Binding="{Binding Path=Company}" Width="auto" MinWidth="140" />
                                                     <DataGridTextColumn Header="Average Price" Binding="{Binding Path=AvgPrice}" Width="auto" MinWidth="130" />
-                                                    <DataGridTextColumn Header="Shares" Binding="{Binding Path=Shares}" Width="auto" MinWidth="60"/>
-                                                    <DataGridTextColumn Header="Sell in (days)" Binding="{Binding Path=DaysLeft}" Width="auto" MinWidth="140" />
-                                                    <DataGridCheckBoxColumn Header="Active" Binding="{Binding Path=Active}" Width="auto" MinWidth="60" />
+                                                    <DataGridTextColumn Header="Shares" Binding="{Binding Path=Shares}" Width="auto" MinWidth="60" />
+                                                    <DataGridTextColumn Header="Sell in (days)" Binding="{Binding Path=DaysLeft}" IsReadOnly="True" Width="auto" MinWidth="140" />
+                                                    <DataGridTemplateColumn Header="Active" Width="auto" MinWidth="60">
+                                                        <DataGridTemplateColumn.CellTemplate>
+                                                            <DataTemplate>
+                                                                <CheckBox IsChecked="{Binding Path=Active, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                                            </DataTemplate>
+                                                        </DataGridTemplateColumn.CellTemplate>
+                                                    </DataGridTemplateColumn>
                                                 </DataGrid.Columns>
                                             </DataGrid>
                                         </Grid>
@@ -266,7 +296,8 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                </Grid>
+    
+                </Border>
 
             </Grid>
         </Grid>
