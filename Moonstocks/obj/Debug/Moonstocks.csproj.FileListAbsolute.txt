@@ -59,3 +59,4 @@ C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\bin\Debug\LoadingIndica
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.csprojAssemblyReference.cache
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Views\ForgotPasswordView.g.cs
 C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Views\ForgotPasswordView.baml
+C:\Users\Gnusse\Documents\GitHub\MoonstocksV2\Moonstocks\obj\Debug\Moonstocks.csproj.CoreCompileInputs.cache

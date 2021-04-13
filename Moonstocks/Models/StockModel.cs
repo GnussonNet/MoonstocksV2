@@ -7,12 +7,20 @@ namespace Moonstocks.Models
     public class StockModel : INotifyPropertyChanged
     {
         #region -- Properties --
-        // Name
-        private string _name;
-        public string Name
+        // Ticker
+        private string _ticker;
+        public string Ticker
         {
-            get { return _name; }
-            set { if (_name != value) { _name = value; OnPropertyChanged("Name"); } }
+            get { return _ticker; }
+            set { if (_ticker != value) { _ticker = value; OnPropertyChanged("Ticker"); } }
+        }
+
+        // Name
+        private string _company;
+        public string Company
+        {
+            get { return _company; }
+            set { if (_company != value) { _company = value; OnPropertyChanged("Company"); } }
         }
 
         // Average price

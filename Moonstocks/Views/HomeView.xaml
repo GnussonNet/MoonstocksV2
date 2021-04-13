@@ -57,6 +57,68 @@
                     <ColumnDefinition Width="105"/>
                 </Grid.ColumnDefinitions>
 
+                <Button Grid.Column="0" Style="{StaticResource ToolbarButton}" Padding="0" FontSize="16" Foreground="{DynamicResource TextHighAlt}" BorderThickness="0" Command="{Binding SignOutCommand}" FontFamily="Resources/Fonts/#Poppins">
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Text="&#xE710;"></TextBlock>
+                </Button>
+
+                <Button Grid.Column="1" Padding="0" FontSize="16" Foreground="{DynamicResource TextHighAlt}" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding SignOutCommand}" FontFamily="Resources/Fonts/#Poppins">
+                    <Grid Margin="0" Width="auto" Height="35">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="35" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Text="&#xE74D;"></TextBlock>
+                    </Grid>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="{DynamicResource Header}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource ButtonHover}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Grid.Column="2" Padding="0" FontSize="16" Foreground="{DynamicResource TextHighAlt}" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding SignOutCommand}" FontFamily="Resources/Fonts/#Poppins">
+                    <Grid Margin="0" Width="auto" Height="35">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="35" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe MDL2 Assets" Text="&#xE72C;"></TextBlock>
+                    </Grid>
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="{DynamicResource Header}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" Value="{DynamicResource ButtonHover}"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
                 <!--Signed in user (logout button) -->
                 <Button Grid.Column="7" Padding="0" FontSize="16" Foreground="{DynamicResource TextHighAlt}" BorderThickness="0" HorizontalAlignment="Right" Command="{Binding SignOutCommand}" FontFamily="Resources/Fonts/#Poppins">
                     <Grid Margin="0" Width="auto" Height="35">
@@ -174,7 +236,7 @@
                                             <TextBlock FontFamily="/Resources/Fonts/#Poppins Bold" Foreground="{DynamicResource Header}" FontWeight="Bold" FontSize="30" Margin="0 20" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"></TextBlock>
 
                                             <!--Watchlist datagrid-->
-                                            <DataGrid FontFamily="/Resources/Fonts/#Poppins" SelectionMode="Single" RowHeight="28" ColumnWidth="*" Grid.Row="1" RowHeaderWidth="0" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding Path=StocksOS, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+                                            <DataGrid BorderThickness="0" BorderBrush="Black" FontFamily="/Resources/Fonts/#Poppins" SelectionMode="Single" RowHeight="28" ColumnWidth="*" Grid.Row="1" RowHeaderWidth="0" CanUserAddRows="False" CanUserDeleteRows="False" ItemsSource="{Binding Path=StocksOS, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
                                                 <DataGrid.RowStyle>
                                                     <!--Green background if active and red if non active-->
                                                     <Style TargetType="{x:Type DataGridRow}">
@@ -190,10 +252,12 @@
                                                 </DataGrid.RowStyle>
                                                 <!--Header colums-->
                                                 <DataGrid.Columns>
-                                                    <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" />
-                                                    <DataGridTextColumn Header="Average Price" Binding="{Binding Path=AvgPrice}" />
-                                                    <DataGridTextColumn Header="Shares" Binding="{Binding Path=Shares}" />
-                                                    <DataGridTextColumn Header="Days until sell" Binding="{Binding Path=DaysLeft}" />
+                                                    <DataGridTextColumn Header="Ticker" Binding="{Binding Path=Ticker}" Width="auto" MinWidth="60" />
+                                                    <DataGridTextColumn Header="Company" Binding="{Binding Path=Company}" Width="auto" MinWidth="70" />
+                                                    <DataGridTextColumn Header="Average Price" Binding="{Binding Path=AvgPrice}" Width="auto" MinWidth="130" />
+                                                    <DataGridTextColumn Header="Shares" Binding="{Binding Path=Shares}" Width="auto" MinWidth="60"/>
+                                                    <DataGridTextColumn Header="Sell in (days)" Binding="{Binding Path=DaysLeft}" Width="auto" MinWidth="140" />
+                                                    <DataGridCheckBoxColumn Header="Active" Binding="{Binding Path=Active}" Width="auto" MinWidth="60" />
                                                 </DataGrid.Columns>
                                             </DataGrid>
                                         </Grid>

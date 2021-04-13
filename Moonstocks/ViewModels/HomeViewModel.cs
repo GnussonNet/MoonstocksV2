@@ -59,7 +59,7 @@ namespace Moonstocks.ViewModels
         public ICommand NavigateLogoutCommand { get; }
 
         // Sign out relay
-        public ICommand SignOutCommand { get; private set; }
+        public ICommand SignOutCommand { get; }
         #endregion
 
         #region -- Constructor --
@@ -151,9 +151,10 @@ namespace Moonstocks.ViewModels
                             // Declare and and stock data to a new stockmodel
                             StockModel stockmodel = new StockModel()
                             {
-                                Name = objectItem.Key,
+                                Company = objectItem.Key,
                                 AvgPrice = objectItem.Value.AvgPrice,
                                 Shares = objectItem.Value.Shares,
+                                Ticker = objectItem.Value.Ticker,
 
                                 // Calculate days left (date purchased + 1 year - todays date) 
                                 DaysLeft = (objectItem.Value.Date.AddYears(1) - new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)).TotalDays,
@@ -161,6 +162,7 @@ namespace Moonstocks.ViewModels
                             };
                             // Add new stockmodel to watchlist StocksOS OS (used for datagrid)
                             watchlists.Object.StocksOS.Add(stockmodel);
+                            watchlists.Object.Name = watchlists.Key;
                         }
                         // Add watchlist to Watchlists OS
                         Watchlists.Add(watchlists.Object);

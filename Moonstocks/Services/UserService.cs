@@ -172,7 +172,8 @@ namespace Moonstocks.Services
 
                 FirebaseStockModel newUserStock = new FirebaseStockModel()
                 {
-                    Name = "Apple",
+                    Ticker = "AAPL",
+                    Company = "Apple",
                     AvgPrice = "1",
                     Shares = "1",
                     Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day),
@@ -184,7 +185,6 @@ namespace Moonstocks.Services
 
                 WatchlistModel newUserWatchlist = new WatchlistModel()
                 {
-                    Name = "My Watchlist",
                     Stocks = newUserStock1
                 };
 
