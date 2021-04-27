@@ -1,4 +1,4 @@
 # MoonstocksV2
  
-## Features
+## Upcoming features
 - Select multiple listview items and display all lists in Datagrid
