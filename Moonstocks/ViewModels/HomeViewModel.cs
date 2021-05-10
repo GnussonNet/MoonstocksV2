@@ -171,25 +171,32 @@ namespace Moonstocks.ViewModels
             #endregion
 
             #region -- With Auto Update --
-            // LIVE UPDATE, LOT OF BUGGS
-            //var observable = firebase.Child("users/" + _userService.GetUid()).AsObservable<WatchlistModel>().Subscribe(d =>
+            //LIVE UPDATE, LOT OF BUGGS
+            //var observable = firebase.Child("users/" + _userService.ToString()).AsObservable<WatchlistModel>().Subscribe(d =>
             //{
+            //    IsBusy = true;
             //    foreach (var item in d.Object.Stocks)
             //    {
             //        // Original it was NewStockModel but this is an test
             //        StockModel newStockModel = new StockModel()
             //        {
-            //            Name = item.Key,
+            //            Company = item.Key,
             //            AvgPrice = item.Value.AvgPrice,
-            //            Shares = item.Value.Shares
+            //            Shares = item.Value.Shares,
+            //            Ticker = item.Value.Ticker,
+
+            //            // Calculate days left (date purchased + 1 year - todays date) 
+            //            DaysLeft = (item.Value.Date.AddYears(1) - new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day)).TotalDays,
+            //            Active = item.Value.Active
             //        };
             //        App.Current.Dispatcher.Invoke((Action)delegate
             //        {
             //            d.Object.StocksOS.Add(newStockModel);
+            //            d.Object.Name = d.Key;
             //        });
             //    }
 
-            //    App.Current.Dispatcher.Invoke((Action)delegate 
+            //    App.Current.Dispatcher.Invoke((Action)delegate
             //    {
             //        //if (Watchlists.Contains(d.Object))
             //        //    MessageBox.Show("CONTAINS");
@@ -197,6 +204,7 @@ namespace Moonstocks.ViewModels
             //        //    MessageBox.Show("NOT CONTAINS");
             //        Watchlists.Add(d.Object);
             //    });
+            //    IsBusy = false;
             //});
             #endregion
 
